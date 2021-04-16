@@ -1,0 +1,23 @@
+<p>component Share works!</p>
+component has membername with value {{name}}
+
+<h1>Our share  info</h1>
+share id= {{share.instrumentId}}
+<br>
+share name= {{share.instrumentId}}
+<br>
+share market rate= {{share.marketRate}}
+
+
+<table border=1>
+    <tr>
+        <th>instrumentId</th>
+        <th>instrumentName</th>
+        <th>marketRate</th>
+    </tr>
+    <tr *ngFor="let s of shares">
+        <td>{{s.instrumentId}}</td>
+        <td>{{s.instrumentName}}</td>
+        <td>{{s.marketRate}}</td>
+    </tr>
+</table>
