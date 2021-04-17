@@ -21,8 +21,8 @@ import com.dao.TradeRecommendationSystemDAO;
 import com.pojo.User;
 import com.pojo.UserStock;
 
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
+//import yahoofinance.Stock;
+//import yahoofinance.YahooFinance;
 
 @CrossOrigin
 @RestController
@@ -46,7 +46,7 @@ public class TradeRecommendationController {
 				return userPresent;
 	}
 	
-	
+	/*
 	@RequestMapping(value = "/testingYahooGithub", method = RequestMethod.GET)
 	public Stock testShares() {
 
@@ -66,6 +66,6 @@ public class TradeRecommendationController {
 
 		return stock;
 
-	}
+	}*/
 
 }

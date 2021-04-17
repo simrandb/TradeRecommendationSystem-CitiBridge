@@ -1,4 +1,32 @@
+<!--
 <br>Username:<input type="text" #username />
 <br>Password:<input type="text" #password/>
 <br><button (click)="s(username.value,password.value)">Log In</button>
 <br>Valid User Credentials:{{userVerified}}
+-->
+
+<br><br><Br>
+    <br><br><br>
+    <br><br><br>
+    
+    <div class="container">
+      <section id="content">
+        <form>
+          <h1>Login Form</h1>
+          <div>
+            <input type="text" placeholder="Username" required="" #username />
+          </div>
+          <div>
+            <input type="password" placeholder="Password" required="" #password />
+          </div>
+          <div>
+            <input type="button" value="Log in" (click)="s(username.value,password.value)" />
+            <br>Valid User Credentials:{{userVerified}}
+            
+          </div>
+        </form><!-- form -->
+        
+      </section><!-- content -->
+    </div><!-- container -->
+    
+    

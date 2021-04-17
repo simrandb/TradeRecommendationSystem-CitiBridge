@@ -1,0 +1,1 @@
+import * from './all-stocks.component';
