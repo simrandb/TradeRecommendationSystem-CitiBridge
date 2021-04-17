@@ -44,6 +44,7 @@ public class TradeRecommendationController {
 	public boolean verifyUser(String username, String password) {
 
 		boolean userPresent=dao.verifyUser(username, password);
+		dao.updateDatabaseForToday();
 				return userPresent;
 	}
 	
@@ -56,7 +57,12 @@ public class TradeRecommendationController {
 		return stockNames;
 	}
 	
-	
+	@RequestMapping(value = "/insertnsestocklist")
+	public void InsertNseStockList() {
+
+		dao.insertCompanySymbols();
+		
+	}
 	
 	/*
 	@RequestMapping(value = "/testingYahooGithub", method = RequestMethod.GET)

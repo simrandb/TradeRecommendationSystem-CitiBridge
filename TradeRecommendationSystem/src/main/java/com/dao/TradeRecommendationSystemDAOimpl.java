@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.pojo.NseStock;
 import com.pojo.User;
 import com.pojo.UserStock;
 
@@ -71,6 +72,37 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		List <String> stockNames=null;
 		return stockNames;
 	}
+	
+	public void updateDatabaseForToday()
+	{
+		String  insertRecord= "insert into nse_stocks(marketCap,growth,growthpercent,dateModified) values(?,?,?,curdate())";
+		NseStock nsestock=new NseStock();
+		for(String stock : nsestocks)
+		{
+			//nsestock.setMarketCap();
+			//nsestock.setGrowth();
+			//nsestock.setGrowthpercent();
+			template.update(insertRecord,nsestock.getMarketCap(), nsestock.getGrowth(),nsestock.getGrowthpercent());
+		}
+
+		
+	}
+
+	public void insertCompanySymbolsAndSector() 
+	{
+		String  insertRecord= "insert into nse_stocks(companySymbol,sector) values(?,?)";
+		NseStock nsestock=new NseStock();
+		
+		for(String stock:nsestocks)
+		{
+			nsestock.setCompanySymbol(stock);
+			//nsestock.setSector();
+			template.update(insertRecord,nsestock.getCompanySymbol(), nsestock.getSector());
+		}
+
+
+	}
+	
 
 }
 
