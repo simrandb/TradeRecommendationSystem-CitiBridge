@@ -1,5 +1,6 @@
 package com.dao;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 
 
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.pojo.User;
 import com.pojo.UserStock;
@@ -41,7 +43,6 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		return stocks;
 	}
 	
-	
 	public boolean verifyUser(String username, String password)
 	{
 		
@@ -61,6 +62,14 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			return true;
 		}
 		return false;
+	}
+
+	
+	public List<String> stocksWithinMarketCap(BigInteger marketCapSelected)
+	{
+		
+		List <String> stockNames=null;
+		return stockNames;
 	}
 
 }

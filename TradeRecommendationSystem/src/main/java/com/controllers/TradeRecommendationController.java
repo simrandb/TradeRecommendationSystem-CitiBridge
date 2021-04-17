@@ -3,6 +3,7 @@ package com.controllers;
 import java.awt.PageAttributes.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,17 @@ public class TradeRecommendationController {
 		boolean userPresent=dao.verifyUser(username, password);
 				return userPresent;
 	}
+	
+	
+	
+	@RequestMapping(value = "/selectedMarketCap")
+	public List<String> s(BigInteger marketCapSelected) {
+
+		List <String> stockNames=dao.stocksWithinMarketCap(marketCapSelected);
+		return stockNames;
+	}
+	
+	
 	
 	/*
 	@RequestMapping(value = "/testingYahooGithub", method = RequestMethod.GET)

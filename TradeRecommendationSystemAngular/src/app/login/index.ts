@@ -1,2 +1,1 @@
-
-import * from './login.component';
+var userVerified:boolean;

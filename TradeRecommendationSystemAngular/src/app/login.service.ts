@@ -12,9 +12,10 @@ export class LoginService {
 
   public verifyUser(username:Text, password:Text): Observable<boolean>
   {
+    console.log("yayy  login.service.ts yayyy")
+
     return this.httpService.get<boolean>("http://localhost:8088/verifyuser?username="+username+"&password="+password);
 
-    console.log("yayy  login.service.ts yayyy")
   }
 
 
