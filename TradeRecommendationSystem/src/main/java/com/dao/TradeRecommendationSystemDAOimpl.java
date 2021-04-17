@@ -33,7 +33,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			@Override
 			public UserStock mapRow(ResultSet set, int arg1) throws SQLException {
 				// TODO Auto-generated method stub
-				return new UserStock(set.getString(2), set.getInt(1));
+				return new UserStock(set.getString(3), set.getInt(4));
 			}
 
 		}, userId);
