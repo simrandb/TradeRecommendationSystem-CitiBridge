@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   constructor(private service: LoginService, private router: Router) { }
   
 
-  userVerified:boolean;
+  //userVerified:boolean;
 
   public s(username:Text, password: Text)
   {
@@ -24,22 +24,22 @@ export class LoginComponent implements OnInit {
     console.log("yayy  login.service.ts yayyy")
 
     
-    this.service.verifyUser(username, password).subscribe(response=>{this.userVerified=response})
+    this.service.verifyUser(username, password).subscribe(response=>{ this.validate(response)})
     console.log(" after verify")
-    console.log(this.userVerified)
+    //console.log(this.userVerified)
 
  //   this.userVerified=true
-    
+    /*
     if(this.userVerified==true)
     {
       window.location.pathname='./home'
 
-      /*
+      
       //Go to dahsboard
       console.log(" inside if")
       //window.location.pathname='./recom'
       window.history.back();
-    */
+    
     }
     else if(this.userVerified==false)
     {
@@ -48,7 +48,28 @@ export class LoginComponent implements OnInit {
     
     }
     console.log(" after if else")
+  */
   }
+  
+  public validate(val:boolean){
+    console.log("in validate "+val)
+    if(val==true)
+    {
+      //Go to dashboard
+      console.log(" inside if")
+      //window.location.pathname='./recom'
+      alert('LOGGED IN SUCCESSFULLY!')
+      window.history.back();
+    }
+    else
+    {
+      //Stay on login and indicate user invalid credentials
+      alert('ENTER CORRECT PASSWORD!')
+      window.location.pathname='./login'
+    }
+
+  }
+  
   ngOnInit(): void {
   }
 
