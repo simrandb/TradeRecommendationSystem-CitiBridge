@@ -60,7 +60,7 @@ public class TradeRecommendationController {
 	@RequestMapping(value = "/insertnsestocklist")
 	public void InsertNseStockList() {
 
-		dao.insertCompanySymbols();
+		dao.insertCompanySymbolsAndSector();
 		
 	}
 	
