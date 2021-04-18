@@ -58,11 +58,19 @@ public class TradeRecommendationController {
 	}
 	
 	@RequestMapping(value = "/insertnsestocklist")
-	public void InsertNseStockList() {
+	public void insertNseStockList() {
 
 		dao.insertCompanySymbolsAndSector();
 		
 	}
+	
+	@RequestMapping(value = "/unsavestock")
+	public void unsaveStock(int userid,String stockSymbol) {
+
+		dao.unsaveAStock(userid, stockSymbol);
+		
+	}
+	
 	
 	/*
 	@RequestMapping(value = "/testingYahooGithub", method = RequestMethod.GET)

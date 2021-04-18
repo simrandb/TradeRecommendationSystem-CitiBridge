@@ -1,8 +1,10 @@
 package com.dao;
 
 import java.math.BigInteger;
+import java.net.URL;
 import java.sql.Connection;
 
+import java.util.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,23 +12,40 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.net.HttpURLConnection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URLConnection;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import com.pojo.NseStock;
 import com.pojo.User;
+import java.net.URL;
+
 import com.pojo.UserStock;
 
 @Repository
 public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSystemDAO {
 
+	String symbol="";
+	String region="";
+	
+	
 	@Autowired
 	JdbcTemplate template;
 
+	
+	
 	public List<UserStock> findCustomerStocks(int userId) {
 		// TODO Auto-generated method stub
 
@@ -90,16 +109,35 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 
 	public void insertCompanySymbolsAndSector() 
 	{
+		
+		 
+		   
 		String  insertRecord= "insert into nse_stocks(companySymbol,sector) values(?,?)";
 		NseStock nsestock=new NseStock();
 		
 		for(String stock:nsestocks)
 		{
-			nsestock.setCompanySymbol(stock);
+			  try {
+			        URL url = new URL("https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol="+stock+".NS"+"&region="+region);
+			        
+			  }
+
+			     catch (Exception e) {
+			        e.printStackTrace();
+			    }
+			
 			//nsestock.setSector();
-			template.update(insertRecord,nsestock.getCompanySymbol(), nsestock.getSector());
+			template.update(insertRecord,stock, nsestock.getSector());
 		}
 
+
+	}
+	
+	
+	public void unsaveAStock(int userid,String stockSymbol)
+	{
+		String  deleteRecord= "delete from stocks values where customerid=? and savedstocksymbol=?";
+		template.update(deleteRecord,userid, stockSymbol);
 
 	}
 	
