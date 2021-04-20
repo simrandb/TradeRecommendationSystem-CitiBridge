@@ -32,6 +32,7 @@ public class TradeRecommendationController {
 	@Autowired
 	TradeRecommendationSystemDAO dao;
 	
+	//to get saved stocks of an user
 	@RequestMapping(value = "/user-shares/{userid}", method = RequestMethod.GET)
 	public List<UserStock> searchCustomerShares(@PathVariable int userid) {
 
@@ -39,7 +40,7 @@ public class TradeRecommendationController {
 		return stocks;
 	}
 	
-	
+	//to verify and login an user
 	@RequestMapping(value = "/verifyuser")
 	public boolean verifyUser(String username, String password) {
 
@@ -49,11 +50,11 @@ public class TradeRecommendationController {
 	}
 	
 	
-	
-	@RequestMapping(value = "/selectedMarketCap")
-	public List<String> s(BigInteger marketCapSelected) {
+	//Fetching stock recommendations for all selected filters
+	@RequestMapping(value = "/stocksforselectedfilters")
+	public List<String> stocksforfilters(String marketCapSelected, String sector , int topHowMany) {
 
-		List <String> stockNames=dao.stocksWithinMarketCap(marketCapSelected);
+		List <String> stockNames=dao.stocksForSelectedFilters(marketCapSelected, sector, topHowMany);
 		return stockNames;
 	}
 	

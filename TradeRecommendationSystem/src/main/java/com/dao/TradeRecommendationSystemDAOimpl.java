@@ -1,6 +1,8 @@
 package com.dao;
 
 import java.math.BigInteger;
+
+
 import java.net.URL;
 import java.sql.Connection;
 
@@ -22,12 +24,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URLConnection;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.pojo.NseStock;
 import com.pojo.User;
 import java.net.URL;
@@ -37,8 +44,6 @@ import com.pojo.UserStock;
 @Repository
 public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSystemDAO {
 
-	String symbol="";
-	String region="";
 	
 	
 	@Autowired
@@ -85,10 +90,11 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	}
 
 	
-	public List<String> stocksWithinMarketCap(BigInteger marketCapSelected)
+	public List<String> stocksForSelectedFilters(String marketCapSelected, String sector, int topHowMany)
 	{
 		
 		List <String> stockNames=null;
+		
 		return stockNames;
 	}
 	
@@ -109,25 +115,29 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 
 	public void insertCompanySymbolsAndSector() 
 	{
-		
-		 
-		   
 		String  insertRecord= "insert into nse_stocks(companySymbol,sector) values(?,?)";
-		NseStock nsestock=new NseStock();
-		
-		for(String stock:nsestocks)
+		String sector="";
+		for(String stock:dummynsestocks)
 		{
 			  try {
-			        URL url = new URL("https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol="+stock+".NS"+"&region="+region);
-			        
+			        String sURL = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol="+stock+".NS"+"&region=IN";
+			        URL url = new URL(sURL);
+			        URLConnection request = url.openConnection();
+			        request.setRequestProperty("x-rapidapi-key", x_rapidapi_key);
+			        request.setRequestProperty("x-rapidapi-host", x_rapidapi_host);
+
+			        request.connect();
+
+			        JsonParser jp = new JsonParser(); 
+			        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); 
+			        JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object. 
+			        System.out.println(rootobj.getAsString());
 			  }
 
 			     catch (Exception e) {
 			        e.printStackTrace();
 			    }
-			
-			//nsestock.setSector();
-			template.update(insertRecord,stock, nsestock.getSector());
+			//template.update(insertRecord,stock, sector);
 		}
 
 
