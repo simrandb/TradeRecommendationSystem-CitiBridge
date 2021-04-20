@@ -1,6 +1,9 @@
 package com.dao;
 
 import java.math.BigInteger;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 
 
 import java.net.URL;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.net.HttpURLConnection;
 
+import org.json.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -27,20 +31,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URLConnection;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.pojo.NseStock;
+import com.pojo.StockForSector;
 import com.pojo.User;
 import java.net.URL;
 
 import com.pojo.UserStock;
-
+import org.springframework.web.client.RestTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @Repository
 public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSystemDAO {
 
@@ -49,7 +53,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	@Autowired
 	JdbcTemplate template;
 
-	
+	RestTemplate restTemplate;
 	
 	public List<UserStock> findCustomerStocks(int userId) {
 		// TODO Auto-generated method stub
@@ -120,24 +124,38 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		for(String stock:dummynsestocks)
 		{
 			  try {
-			        String sURL = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol="+stock+".NS"+"&region=IN";
-			        URL url = new URL(sURL);
-			        URLConnection request = url.openConnection();
-			        request.setRequestProperty("x-rapidapi-key", x_rapidapi_key);
-			        request.setRequestProperty("x-rapidapi-host", x_rapidapi_host);
-
-			        request.connect();
-
-			        JsonParser jp = new JsonParser(); 
-			        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); 
-			        JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object. 
-			        System.out.println(rootobj.getAsString());
+			        String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol="+stock+".NS"+"&region=IN";
+			        URL obj = new URL(url);
+			        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			        con.setRequestMethod("GET");
+			        con.setRequestProperty("x-rapidapi-key",x_rapidapi_key );
+			        con.setRequestProperty("x_rapidapi_host",x_rapidapi_host );
+			        int responseCode = con.getResponseCode();
+			        System.out.println("\nSending 'GET' request to URL : " + url);
+			        System.out.println("Response Code : " + responseCode);
+			        BufferedReader in = new BufferedReader(
+			                new InputStreamReader(con.getInputStream()));
+			        String inputLine;
+			        StringBuffer response = new StringBuffer();
+			        while ((inputLine = in.readLine()) != null) {
+			        	response.append(inputLine);
+			             //print in String
+			             JSONObject myResponse = new JSONObject(response.toString());
+			             
+			             
+			             JSONObject getSth = myResponse.getJSONObject("summaryProfile");
+			             Object level = getSth.get("sector");
+			             System.out.println(level);
+			             template.update(insertRecord,stock, level);
+			             
+			  }
 			  }
 
 			     catch (Exception e) {
 			        e.printStackTrace();
 			    }
-			//template.update(insertRecord,stock, sector);
+			  
+			
 		}
 
 

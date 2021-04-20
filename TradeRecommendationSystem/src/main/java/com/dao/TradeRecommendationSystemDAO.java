@@ -18,14 +18,8 @@ public interface TradeRecommendationSystemDAO {
 	public String x_rapidapi_host="apidojo-yahoo-finance-v1.p.rapidapi.com";
 	public String [] dummynsestocks={"RELIANCE",
 			"TCS",
-			"HDFCBANK",
-			"INFY",
-			"HINDUNILVR",
-			"HDFC",
-			"ICICIBANK",
-			"KOTAKBANK",
-			"SBIN",
-			"BAJFINANCE"};
+			"HDFCBANK"
+			};
 	
 	// Took all nse symbols from a downloaded csv from NSE
 	public String [] nsestocks={"RELIANCE",
