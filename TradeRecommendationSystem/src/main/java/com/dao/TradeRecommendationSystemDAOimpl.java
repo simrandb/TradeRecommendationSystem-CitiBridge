@@ -121,7 +121,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	{
 		String  insertRecord= "insert into nse_stocks(companySymbol,sector) values(?,?)";
 		String sector="";
-		for(String stock:dummynsestocks)
+		for(String stock:nsestocks)
 		{
 			  try {
 			        String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol="+stock+".NS"+"&region=IN";
@@ -131,8 +131,8 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			        con.setRequestProperty("x-rapidapi-key",x_rapidapi_key );
 			        con.setRequestProperty("x_rapidapi_host",x_rapidapi_host );
 			        int responseCode = con.getResponseCode();
-			        System.out.println("\nSending 'GET' request to URL : " + url);
-			        System.out.println("Response Code : " + responseCode);
+			        //System.out.println("\nSending 'GET' request to URL : " + url);
+			        //System.out.println("Response Code : " + responseCode);
 			        BufferedReader in = new BufferedReader(
 			                new InputStreamReader(con.getInputStream()));
 			        String inputLine;
@@ -145,7 +145,6 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			             
 			             JSONObject getSth = myResponse.getJSONObject("summaryProfile");
 			             Object level = getSth.get("sector");
-			             System.out.println(level);
 			             template.update(insertRecord,stock, level);
 			             
 			  }
@@ -157,6 +156,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			  
 			
 		}
+		System.out.println("done");
 
 
 	}
