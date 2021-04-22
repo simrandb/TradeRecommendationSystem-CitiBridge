@@ -22,33 +22,9 @@ export class LoginComponent implements OnInit {
   {
   
     console.log("yayy  login.service.ts yayyy")
-
-    
     this.service.verifyUser(username, password).subscribe(response=>{ this.validate(response)})
     console.log(" after verify")
-    //console.log(this.userVerified)
-
- //   this.userVerified=true
-    /*
-    if(this.userVerified==true)
-    {
-      window.location.pathname='./home'
-
-      
-      //Go to dahsboard
-      console.log(" inside if")
-      //window.location.pathname='./recom'
-      window.history.back();
     
-    }
-    else if(this.userVerified==false)
-    {
-      //Stay on login and indicate user invalid credentials
-      window.location.pathname='./login'
-    
-    }
-    console.log(" after if else")
-  */
   }
   
   public validate(val:boolean){
@@ -57,9 +33,9 @@ export class LoginComponent implements OnInit {
     {
       //Go to dashboard
       console.log(" inside if")
-      //window.location.pathname='./recom'
       alert('LOGGED IN SUCCESSFULLY!')
-      window.history.back();
+      //window.history.back();
+      window.location.pathname='./profile'
     }
     else
     {
@@ -71,6 +47,7 @@ export class LoginComponent implements OnInit {
   }
   
   ngOnInit(): void {
+
   }
 
 

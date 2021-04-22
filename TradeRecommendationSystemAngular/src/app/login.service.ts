@@ -17,6 +17,12 @@ export class LoginService {
     return this.httpService.get<boolean>("http://localhost:8088/verifyuser?username="+username+"&password="+password);
 
   }
+  /*
+  public getUid(username:Text): number
+  {
+    console.log("in get uid")
+    return this.httpService.get("http://localhost:8088/getUserId?username="+username);
+  }*/
 
 
 }

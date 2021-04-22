@@ -32,10 +32,16 @@ public class TradeRecommendationController {
 	@Autowired
 	TradeRecommendationSystemDAO dao;
 	
+	@RequestMapping(value= "/getUserId")
+	public int getUid(String username) {
+		int p = dao.getUid(username);
+		return p;
+	}
+	
 	//to get saved stocks of an user
 	@RequestMapping(value = "/user-shares/{userid}", method = RequestMethod.GET)
 	public List<UserStock> searchCustomerShares(@PathVariable int userid) {
-
+		//int p = dao.getUid(username);
 		List<UserStock> stocks = dao.findCustomerStocks(userid);
 		return stocks;
 	}
@@ -45,7 +51,7 @@ public class TradeRecommendationController {
 	public boolean verifyUser(String username, String password) {
 
 		boolean userPresent=dao.verifyUser(username, password);
-		dao.updateDatabaseForToday();
+		//dao.updateDatabaseForToday();
 				return userPresent;
 	}
 	

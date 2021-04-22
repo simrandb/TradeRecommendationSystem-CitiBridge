@@ -7,6 +7,7 @@ import com.pojo.UserStock;
 
 public interface TradeRecommendationSystemDAO {
 	
+	public int getUid(String username);
 	public List<UserStock> findCustomerStocks(int customerid);
 	public boolean verifyUser(String username, String password);
 	public List<String> stocksForSelectedFilters(String marketCapSelected, String sector, int topHowMany);

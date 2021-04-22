@@ -1,0 +1,23 @@
+<p>stocks works!</p>
+<br><br><br>
+<div class="main">
+<h1> Stocks info from MySql database for userid : 1</h1>
+<!--
+<table border="7" class="tt">
+    <tr>
+        <td><b>STOCK SYMBOL</b></td>
+        <td><b>QUANTITY</b></td>
+    </tr>
+    <tr *ngFor="let s of stocks" >
+        <td>{{s.savedStockSymbol }}</td>
+        <td style="text-align:center">{{s.quantity}}</td>
+    </tr>
+</table>
+-->
+<div *ngFor="let s of stocks" class="set">
+    <div class="card">
+    <p>Stock Name: {{s.savedStockSymbol }}</p>
+    <p>Quantity: {{s.quantity}}</p>
+</div>
+</div>
+</div>

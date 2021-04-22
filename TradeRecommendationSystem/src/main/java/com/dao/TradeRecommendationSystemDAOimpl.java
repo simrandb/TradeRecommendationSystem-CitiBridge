@@ -55,6 +55,20 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 
 	RestTemplate restTemplate;
 	
+	public int getUid(String username) {
+		String getuid = "select * from customerid where username=?";
+		User user = template.queryForObject(getuid, new RowMapper<User>() {
+
+			@Override
+			public User mapRow(ResultSet set, int arg1) throws SQLException {
+				// TODO Auto-generated method stub
+				return new User(set.getString(2), set.getString(3));
+			}
+
+		},username);
+		return user.getUserId();
+	}
+	
 	public List<UserStock> findCustomerStocks(int userId) {
 		// TODO Auto-generated method stub
 
