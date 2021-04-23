@@ -18,7 +18,10 @@ public class User {
 		this.userName = userName;
 		this.password = password;
 	}
-
+	public User(int userid) {
+		super();
+		this.userId = userid;
+	}
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", password=" + password + ", userId=" + userId + "]";

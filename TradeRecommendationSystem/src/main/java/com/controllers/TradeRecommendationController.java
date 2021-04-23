@@ -44,9 +44,29 @@ public class TradeRecommendationController {
 	@RequestMapping(value = "/verifyuser")
 	public boolean verifyUser(String username, String password) {
 
-		boolean userPresent=dao.verifyUser(username, password);
+		int userid=dao.verifyUser(username, password);
 		dao.updateDatabaseForToday();
-				return userPresent;
+		if(userid!=-1)		dao.changeUserLoggedStatus(1,userid);
+				return userid==-1?false:true ;
+		
+	}
+	
+	
+	//to logout user from system
+	@RequestMapping(value = "/logoutuser")
+	public void logoutUser(int userid) {
+		dao.changeUserLoggedStatus(0,userid);
+		
+		
+	}
+	
+	
+	//to fetch userid
+	@RequestMapping(value = "/getuserid")
+	public void sendUserid(String username) {
+		//dao.changeUserLoggedStatus(0,username);
+		
+		
 	}
 	
 	

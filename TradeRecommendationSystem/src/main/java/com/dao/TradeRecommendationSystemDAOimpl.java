@@ -72,7 +72,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		return stocks;
 	}
 	
-	public boolean verifyUser(String username, String password)
+	public int verifyUser(String username, String password)
 	{
 		
 		String findpwd = "select * from customer where username=?";
@@ -88,9 +88,20 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		
 		if (user.getPassword().equals(password))
 		{
-			return true;
+			
+			user = template.queryForObject(findpwd, new RowMapper<User>() {
+
+				@Override
+				public User mapRow(ResultSet set, int arg1) throws SQLException {
+					// TODO Auto-generated method stub
+					return new User(set.getInt(1));
+				}
+
+			},username);
+			
+			return user.getUserId();
 		}
-		return false;
+		return -1;
 	}
 
 	
@@ -108,6 +119,37 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		NseStock nsestock=new NseStock();
 		for(String stock : nsestocks)
 		{
+			 try {
+			        String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol="+stock+".NS"+"&region=IN";
+			        URL obj = new URL(url);
+			        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			        con.setRequestMethod("GET");
+			        con.setRequestProperty("x-rapidapi-key",x_rapidapi_key );
+			        con.setRequestProperty("x_rapidapi_host",x_rapidapi_host );
+			        int responseCode = con.getResponseCode();
+			        //System.out.println("\nSending 'GET' request to URL : " + url);
+			        //System.out.println("Response Code : " + responseCode);
+			        BufferedReader in = new BufferedReader(
+			                new InputStreamReader(con.getInputStream()));
+			        String inputLine;
+			        StringBuffer response = new StringBuffer();
+			        while ((inputLine = in.readLine()) != null) {
+			        	response.append(inputLine);
+			             //print in String
+			             JSONObject myResponse = new JSONObject(response.toString());
+			             
+			             
+			             JSONObject getSth = myResponse.getJSONObject("summaryProfile");
+			             Object level = getSth.get("sector");
+			             template.update(insertRecord,stock, level);
+			             
+			  }
+			  }
+
+			     catch (Exception e) {
+			        e.printStackTrace();
+			    }
+			  
 			//nsestock.setMarketCap();
 			//nsestock.setGrowth();
 			//nsestock.setGrowthpercent();
@@ -169,6 +211,18 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 
 	}
 	
+	public int checkDateModifiedOfDatabase()
+	{
+		
+		
+		return 1;
+	}
+	
+	public void changeUserLoggedStatus(int loggedStatus,int customerid)
+	{
+		String  updateRecord= "update customer set logged=? where customerid=?;";
+		template.update(updateRecord,loggedStatus, customerid);
+	}
 
 }
 

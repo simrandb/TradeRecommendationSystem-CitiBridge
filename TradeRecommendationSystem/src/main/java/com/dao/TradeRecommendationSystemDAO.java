@@ -8,12 +8,13 @@ import com.pojo.UserStock;
 public interface TradeRecommendationSystemDAO {
 	
 	public List<UserStock> findCustomerStocks(int customerid);
-	public boolean verifyUser(String username, String password);
+	public int verifyUser(String username, String password);
 	public List<String> stocksForSelectedFilters(String marketCapSelected, String sector, int topHowMany);
 	public void updateDatabaseForToday();
 	public void insertCompanySymbolsAndSector();
 	public void unsaveAStock(int userid,String stockSymbol);
-	
+	public int checkDateModifiedOfDatabase();
+	public void changeUserLoggedStatus(int loggedStatus,int customerid);
 	public String x_rapidapi_key="ad930ecec8mshbddd2c857bc6bb4p1a3f2bjsn469460ef77f1";
 	public String x_rapidapi_host="apidojo-yahoo-finance-v1.p.rapidapi.com";
 	public String [] dummynsestocks={"RELIANCE",
