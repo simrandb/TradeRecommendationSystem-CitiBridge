@@ -3,23 +3,36 @@ package com.dao;
 import java.math.BigInteger;
 import java.util.List;
 
+import com.pojo.NseStock;
 import com.pojo.UserStock;
 
 public interface TradeRecommendationSystemDAO {
 	
+	public int getUid(String username);
 	public List<UserStock> findCustomerStocks(int customerid);
-	public int verifyUser(String username, String password);
-	public List<String> stocksForSelectedFilters(String marketCapSelected, String sector, int topHowMany);
+	public boolean verifyUser(String username, String password);
+	public List<NseStock> stocksForSelectedFilters(String marketCapSelected, String sector, int topHowMany);
 	public void updateDatabaseForToday();
 	public void insertCompanySymbolsAndSector();
 	public void unsaveAStock(int userid,String stockSymbol);
 	public int checkDateModifiedOfDatabase();
-	public void changeUserLoggedStatus(int loggedStatus,int customerid);
-	public String x_rapidapi_key="ad930ecec8mshbddd2c857bc6bb4p1a3f2bjsn469460ef77f1";
+	public boolean checkUsernameExistInDatabase(String username);
+	public void changeUserLoggedStatus(int loggedStatus,String username);
+	public String x_rapidapi_key="fc5143996fmshdc74c92bd29fd1cp19b94ajsn3b5925dc08d2";
 	public String x_rapidapi_host="apidojo-yahoo-finance-v1.p.rapidapi.com";
 	public String [] dummynsestocks={"RELIANCE",
 			"TCS",
-			"HDFCBANK"
+			"HDFCBANK",
+			"INFY",
+			"HINDUNILVR",
+			"HDFC",
+			"ICICIBANK",
+			"KOTAKBANK",
+			"SBIN",
+			"BAJFINANCE",
+			"BHARTIARTL",
+			"ITC",
+			"HCLTECH"
 			};
 	
 	// Took all nse symbols from a downloaded csv from NSE

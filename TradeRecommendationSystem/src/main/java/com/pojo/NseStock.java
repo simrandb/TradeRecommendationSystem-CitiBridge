@@ -6,7 +6,7 @@ public class NseStock {
 	private String Sector;
 	private double growth;
 	private double growthpercent;
-	private double marketCap;
+	private String marketCap;
 	
 	
 	
@@ -17,9 +17,17 @@ public class NseStock {
 	public NseStock() {
 		super();
 	}
-	public NseStock(String sector, double growth, double growthpercent, double marketCap) {
+	public NseStock(String sector, double growth, double growthpercent, String marketCap) {
 		super();
 		Sector = sector;
+		this.growth = growth;
+		this.growthpercent = growthpercent;
+		this.marketCap = marketCap;
+	}
+	public NseStock(String companySymbol,String sector, double growth, double growthpercent,String marketCap) {
+		super();
+		Sector = sector;
+		this.companySymbol = companySymbol;
 		this.growth = growth;
 		this.growthpercent = growthpercent;
 		this.marketCap = marketCap;
@@ -48,10 +56,11 @@ public class NseStock {
 	public void setGrowthpercent(double growthpercent) {
 		this.growthpercent = growthpercent;
 	}
-	public double getMarketCap() {
+	
+	public String getMarketCap() {
 		return marketCap;
 	}
-	public void setMarketCap(double marketCap) {
+	public void setMarketCap(String marketCap) {
 		this.marketCap = marketCap;
 	}
 	@Override

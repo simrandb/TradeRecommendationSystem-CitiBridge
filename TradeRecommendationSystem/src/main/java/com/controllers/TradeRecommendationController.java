@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.dao.TradeRecommendationSystemDAO;
+import com.pojo.NseStock;
 import com.pojo.User;
 import com.pojo.UserStock;
 
@@ -32,52 +33,79 @@ public class TradeRecommendationController {
 	@Autowired
 	TradeRecommendationSystemDAO dao;
 	
+	
+	//Ready-to-use	
+	//------------------------------------------------------------------------------------------------
 	//to get saved stocks of an user
 	@RequestMapping(value = "/user-shares/{userid}", method = RequestMethod.GET)
 	public List<UserStock> searchCustomerShares(@PathVariable int userid) {
-
 		List<UserStock> stocks = dao.findCustomerStocks(userid);
 		return stocks;
 	}
 	
+	
+	//Ready-to-use	
+	//------------------------------------------------------------------------------------------------
 	//to verify and login an user
 	@RequestMapping(value = "/verifyuser")
 	public boolean verifyUser(String username, String password) {
+		
+		boolean userVerified=dao.verifyUser(username, password);
+		//dao.updateDatabaseForToday();
+		return userVerified;
+		
+	}
+	
+	//Ready-to-use	
+	//------------------------------------------------------------------------------------------------
+	//to check username exists in database
+		@RequestMapping(value = "/checkuserexists/{username}")
+		public boolean verifyUser(@PathVariable String username) {
+			
+			boolean userexist=dao.checkUsernameExistInDatabase(username);
+			
+			return userexist;
+			
+		}
+	
 
-		int userid=dao.verifyUser(username, password);
-		dao.updateDatabaseForToday();
-		if(userid!=-1)		dao.changeUserLoggedStatus(1,userid);
-				return userid==-1?false:true ;
 		
-	}
-	
-	
-	//to logout user from system
-	@RequestMapping(value = "/logoutuser")
-	public void logoutUser(int userid) {
-		dao.changeUserLoggedStatus(0,userid);
+	//Ready-to-use	
+	//------------------------------------------------------------------------------------------------		
+	//to change status of user for login/logout
+	@RequestMapping(value = "/loguser")
+	public void logUser(String username, int logStatus) {
+		dao.changeUserLoggedStatus(logStatus,username);
 		
 		
 	}
 	
 	
+	//Ready-to-use	
+	//------------------------------------------------------------------------------------------------
 	//to fetch userid
 	@RequestMapping(value = "/getuserid")
 	public void sendUserid(String username) {
-		//dao.changeUserLoggedStatus(0,username);
-		
-		
+			dao.getUid(username);		
+
 	}
 	
 	
+	
+	//Ready-to-use	
+	//------------------------------------------------------------------------------------------------
 	//Fetching stock recommendations for all selected filters
 	@RequestMapping(value = "/stocksforselectedfilters")
-	public List<String> stocksforfilters(String marketCapSelected, String sector , int topHowMany) {
+	public List<NseStock> stocksforfilters(String marketCapSelected, String sector , int topHowMany) {
 
-		List <String> stockNames=dao.stocksForSelectedFilters(marketCapSelected, sector, topHowMany);
-		return stockNames;
+		List <NseStock> stocks=dao.stocksForSelectedFilters(marketCapSelected, sector, topHowMany);
+		return stocks;
 	}
 	
+	
+	//Ready-to-use	
+	//------------------------------------------------------------------------------------------------
+	//!! Only to be used first one time! to insert all companySymbols and 
 	@RequestMapping(value = "/insertnsestocklist")
 	public void insertNseStockList() {
 
@@ -85,6 +113,10 @@ public class TradeRecommendationController {
 		
 	}
 	
+	
+	//Ready-to-use	
+	//------------------------------------------------------------------------------------------------
+	//to delete saved stock entry for a customer
 	@RequestMapping(value = "/unsavestock")
 	public void unsaveStock(int userid,String stockSymbol) {
 
