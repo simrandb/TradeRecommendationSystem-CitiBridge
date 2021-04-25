@@ -1,5 +1,66 @@
 
-/* Reset CSS */
+body  
+{  
+    margin: 0;  
+    padding: 0;  
+    background-color:#0b0c15;  
+    font-family:Georgia, 'Times New Roman', Times, serif;  
+}  
+.login{  
+        width: 350px;  
+        overflow: hidden;  
+        margin: auto;  
+        margin: 20 0 0 450px;  
+        padding: 80px;  
+        background: #1f2833;  
+        border-radius: 15px ;  
+          
+}  
+h2{  
+    text-align: center;  
+    color: #66fcf1;; 
+    font-size: 35px; 
+    padding: 20px;  
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}  
+label{  
+    color:#45a29e;  
+    font-size: 20px;  
+    font-family: serif;
+}  
+#username{  
+    width: 300px;  
+    height: 35px;  
+    border: none;  
+    border-radius: 3px;  
+    padding-left: 8px;  
+}  
+#password{  
+    width: 300px;  
+    height: 35px;  
+    border: none;  
+    border-radius: 3px;  
+    padding-left: 8px;  
+      
+} 
+form input[type="button"] {  
+    width: 300px;  
+    height: 40px;  
+    border: none;  
+    border-radius: 17px;  
+    padding-left: 7px;  
+    color: #c5c6c7;  
+    background-color: #0b0c10;
+    font-family: serif;
+    font-size: 20px;
+    cursor: pointer;
+}  
+form input[type="button"]:hover{
+  background-color: #0b0c20;
+}
+
+/*
+/* Reset CSS 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -25,7 +86,7 @@ body {
   padding: 0;
   position: relative;
 }
-h1{ font-size:28px;}
+h1{ font-size:28px; }
 h2{ font-size:26px;}
 h3{ font-size:18px;}
 h4{ font-size:16px;}
@@ -244,3 +305,4 @@ form:after {
   padding: 15px 0;
 }
 
+*/

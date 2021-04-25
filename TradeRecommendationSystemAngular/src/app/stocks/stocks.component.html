@@ -1,7 +1,9 @@
 <p>stocks works!</p>
 <br><br><br>
 <div class="main">
-<h1> Stocks info from MySql database for userid : 1</h1>
+<h1>Name : </h1>
+<br><br><br>
+<h2> Stocks info from MySql database for userid : 1</h2>
 <!--
 <table border="7" class="tt">
     <tr>
@@ -16,8 +18,8 @@
 -->
 <div *ngFor="let s of stocks" class="set">
     <div class="card">
-    <p>Stock Name: {{s.savedStockSymbol }}</p>
-    <p>Quantity: {{s.quantity}}</p>
+    <p>STOCK NAME = {{s.savedStockSymbol }}</p>
+    <p>QUANTITY = {{s.quantity}}</p>
 </div>
 </div>
 </div>

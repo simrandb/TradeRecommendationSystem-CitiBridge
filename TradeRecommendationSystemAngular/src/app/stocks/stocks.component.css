@@ -6,22 +6,27 @@
 .set{
     float:left;
 }
-.main{
-   
+h1{
+    color: #66fcf1
+}
+h2{
+    color: #45a29e;
 }
 .card {
-    font-family: Arial, Helvetica, sans-serif;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+    /*font-family: Arial, Helvetica, sans-serif;*/
+    box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.3);
     padding: 16px;
-    text-align: center;
-    background-color: cornflowerblue;
-    margin: 10px;
-    width: 500px;
+    text-align: left;
+    background-color: #c5c6c7;
+    margin: 40px;
+    width: 300px;
     border-style: solid;
-    border-color: darkblue;
+    border-color: #152833;
     border-radius: 10px;
     border-width: 1px;
+    font-size: large;
+    font-family: serif;
   }
 .card p{
-    color: darkblue;
+    color: #152833;
 }

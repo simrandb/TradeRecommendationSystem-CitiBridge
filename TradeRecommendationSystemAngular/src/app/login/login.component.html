@@ -5,6 +5,27 @@
 <br>Valid User Credentials:{{userVerified}}
 -->
 
+<h2>LOGIN PAGE</h2><br>    
+    <div class="login">    
+    <form id="login">    
+        <label><b>User Name     
+        </b>  
+        <br>  
+        </label>    
+        <input type="text" placeholder="Username" required="" #username name="username" id="username"/>    
+        <br><br>    
+        <label><b>Password     
+        </b>  
+        <br>  
+        </label>    
+        <input type="Password" placeholder="Password" required="" #password name="password" id="password"/>    
+        <br><br>    
+        <input type="button" value="Log In Here" #log name="log" id="log" (click)="s(username.value,password.value)" />       
+        <br><br>        
+    </form>     
+</div>    
+
+<!--
 
 <br><br><Br>
     <br><br><br>
@@ -22,12 +43,12 @@
           </div>
           <div>
             <input type="button" value="Log in" (click)="s(username.value,password.value)" />
-            <!--<br>Valid User Credentials:{{userVerified}}
-            -->
+            
           </div>
-        </form><!-- form -->
+        </form>
         
-      </section><!-- content -->
-    </div><!-- container -->
+      </section>
+    </div>
+  -->
     
     

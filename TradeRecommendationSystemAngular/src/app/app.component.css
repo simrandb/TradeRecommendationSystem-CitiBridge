@@ -6,29 +6,45 @@
 }
 
 header{
-    background-color: aqua;
+   /* background-color: aqua;
     color:brown;
-    height: 55px;
+    */background-color: #1f2833;
+    height: 67px;
     text-align : right;
-	/*float: left;*/
     width: 100%;
 }
+
+.main{
+    margin : 10px;
+    padding: 10px;
+}
+
 button {
-    background-color : #FAE8E0;
+    /*background-color : #FAE8E0;
 	color: #2E765E;
-	padding : 15px 10px;
+	*/color: #66fcf1;
+    outline-color: #1f2833;
+    background-color: #1f2833;
+    padding : 20px 10px;
 	text-align: center;
-	font-size: 18px;
+	font-size: 20px;
 	width: 15%;
+    border-top: 2px solid #1f2833;
+    border-bottom: 2px solid #1f2833;
+
 }
 button.b2{
     float:left;
+    border-right: 2px solid #45a29e;
+    border-left: 2px solid #1f2833;
 }
 
 button.b1{
     float: right;
+    border-left: 2px solid #45a29e;
+    border-right: 2px solid #1f2833;
 }
 button:hover{
-    background-color: chartreuse;
-    
+    /*background-color: chartreuse;
+    */background-color: #0b0c10;
 }
