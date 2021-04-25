@@ -55,6 +55,8 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 
 	RestTemplate restTemplate;
 	
+	
+	//Done
 	public int getUid(String username) {
 		String getuid = "select * from customerid where username=?";
 		User user = template.queryForObject(getuid, new RowMapper<User>() {
@@ -62,13 +64,15 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			@Override
 			public User mapRow(ResultSet set, int arg1) throws SQLException {
 				// TODO Auto-generated method stub
-				return new User(set.getString(2), set.getString(3));
+				return new User(set.getInt(1));
 			}
 
 		},username);
 		return user.getUserId();
 	}
 	
+	
+	//Done
 	public List<UserStock> findCustomerStocks(int userId) {
 		// TODO Auto-generated method stub
 
@@ -86,6 +90,9 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		return stocks;
 	}
 	
+	
+	
+	//Done
 	public boolean verifyUser(String username, String password)
 	{
 		
@@ -108,36 +115,41 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	}
 
 	
-	public List<String> stocksForSelectedFilters(String marketCapSelected, String sector, int topHowMany)
+	//Done
+	public List<NseStock> stocksForSelectedFilters(String marketCapSelected, String sector, int topHowMany)
 	{
 		
-		List <String> stockNames=null;
+		String find = "select * from nse_stocks where marketCap=? and sector=? order by growthpercent desc limit ?;";
+		List<NseStock> stocks = template.query(find, new RowMapper<NseStock>() {
+
+			@Override
+			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
+				// TODO Auto-generated method stub
+				return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
+			}
+
+		}, marketCapSelected,sector,topHowMany);
 		
-		return stockNames;
+		
+		return stocks;
 	}
 	
+	
+	//growth insertion left, waiting for timestamp function from rashika
 	public void updateDatabaseForToday()
 	{
+		int toUpdate=checkDateModifiedOfDatabase();
+		
+		if (toUpdate==0)
+		{
+			return;
+		}
+		Object raw=null;
 		String  insertRecord= "insert into nse_stocks(marketCap,growth,growthpercent,dateModified) values(?,?,?,curdate())";
 		NseStock nsestock=new NseStock();
-		for(String stock : nsestocks)
+		for(String stock : dummynsestocks)
 		{
-			//nsestock.setMarketCap();
-			//nsestock.setGrowth();
-			//nsestock.setGrowthpercent();
-			template.update(insertRecord,nsestock.getMarketCap(), nsestock.getGrowth(),nsestock.getGrowthpercent());
-		}
-
-		
-	}
-
-	public void insertCompanySymbolsAndSector() 
-	{
-		String  insertRecord= "insert into nse_stocks(companySymbol,sector) values(?,?)";
-		String sector="";
-		for(String stock:nsestocks)
-		{
-			  try {
+			 try {
 			        String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol="+stock+".NS"+"&region=IN";
 			        URL obj = new URL(url);
 			        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -147,6 +159,56 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			        int responseCode = con.getResponseCode();
 			        //System.out.println("\nSending 'GET' request to URL : " + url);
 			        //System.out.println("Response Code : " + responseCode);
+			        BufferedReader in = new BufferedReader(
+			                new InputStreamReader(con.getInputStream()));
+			        String inputLine;
+			        StringBuffer response = new StringBuffer();
+			        while ((inputLine = in.readLine()) != null) {
+			        	response.append(inputLine);
+			             //print in String
+			             JSONObject myResponse = new JSONObject(response.toString());
+			             
+			             
+			             JSONObject getSth = myResponse.getJSONObject("price");
+			             JSONObject level = getSth.getJSONObject("marketCap");
+			             raw=level.get("raw");
+			  }
+			  }
+
+			     catch (Exception e) {
+			        e.printStackTrace();
+			    }
+			  
+			//nsestock.setMarketCap();
+			//nsestock.setGrowth();
+			//nsestock.setGrowthpercent();
+			template.update(insertRecord,raw, nsestock.getGrowth(),nsestock.getGrowthpercent());
+		}
+
+		
+		
+	}
+
+	
+	//Done
+	public void insertCompanySymbolsAndSector() 
+	{
+		String  insertRecord= "insert into nse_stocks(companySymbol,sector) values(?,?)";
+		String sector="";
+		for(String stock:dummynsestocks)
+		{
+			  try {
+			        String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol="+stock+".NS"+"&region=IN";
+			        URL obj = new URL(url);
+			        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			        con.setRequestMethod("GET");
+			        con.setRequestProperty("x-rapidapi-key",x_rapidapi_key );
+			        con.setRequestProperty("x_rapidapi_host",x_rapidapi_host );
+			        int responseCode = con.getResponseCode();
+			        
+			        //System.out.println("\nSending 'GET' request to URL : " + url);
+			        //System.out.println("Response Code : " + responseCode);
+			        
 			        BufferedReader in = new BufferedReader(
 			                new InputStreamReader(con.getInputStream()));
 			        String inputLine;
@@ -176,6 +238,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	}
 	
 	
+	//Done
 	public void unsaveAStock(int userid,String stockSymbol)
 	{
 		String  deleteRecord= "delete from stocks values where customerid=? and savedstocksymbol=?";
@@ -183,6 +246,62 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 
 	}
 	
+	
+	//comparing with last working day left, waiting for timestamp function from rashika
+	//To work on directly timestamps instead of Dates 
+	public int checkDateModifiedOfDatabase()
+	{
+		String findpwd = "select * from nse_stocks where companySymbol=?";
+		User user = template.queryForObject(findpwd, new RowMapper<User>() {
+
+			@Override
+			public User mapRow(ResultSet set, int arg1) throws SQLException {
+				// TODO Auto-generated method stub
+				return new User(set.getDate(6));
+			}
+
+		},"RELIANCE");
+		
+		long millis=System.currentTimeMillis();  
+		java.sql.Date date=new java.sql.Date(millis);  
+		if(user.getDateModified().compareTo(date)==0 )
+		{
+			return 0;
+		}
+		
+		return 1;
+	}
+	
+	
+	//Done
+	public boolean checkUsernameExistInDatabase(String username)
+	{
+	try {	
+		String findpwd = "select * from customer where username=?";
+		User user = template.queryForObject(findpwd, new RowMapper<User>() {
+
+			@Override
+			public User mapRow(ResultSet set, int arg1) throws SQLException {
+				// TODO Auto-generated method stub
+				return new User(set.getString(2), set.getString(3));
+			}
+
+		},username);
+		
+	}
+	catch(Exception e)
+	{
+		return false;
+	}
+		return true;
+	}
+	
+	
+	//Done
+	public void changeUserLoggedStatus(int loggedStatus,String username)
+	{
+		String  updateRecord= "update customer set logged=? where username=?;";
+		template.update(updateRecord,loggedStatus, username);
+	}
 
 }
-

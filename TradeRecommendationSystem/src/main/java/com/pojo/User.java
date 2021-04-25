@@ -1,10 +1,25 @@
 package com.pojo;
 
+import java.util.Date;
 import java.util.List;
 
 public class User {
 	private String userName,password;
 	private int userId; 
+	private Date dateModified;
+	
+	public Date getDateModified() {
+		return dateModified;
+	}
+
+	public void setDateModified(Date dateModified) {
+		this.dateModified = dateModified;
+	}
+
+	public User(Date dateModified) {
+		super();
+		this.dateModified = dateModified;
+	}
 
 	public User(String userName, String password, int userId) {
 		super();
@@ -19,6 +34,10 @@ public class User {
 		this.password = password;
 	}
 
+	public User(int userid) {
+		super();
+		this.userId = userid;
+	}
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", password=" + password + ", userId=" + userId + "]";
