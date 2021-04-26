@@ -1,2 +1,8 @@
-<p>recom works!</p>
-<a href="./login">Login</a>
+<br>
+
+    <a *ngIf="loggedIn" href="./logout" >Log Out</a>
+    <a *ngIf="!loggedIn" href="./login" >Log In</a>
+
+<br>
+<p style="font-size: 18px;" *ngIf="!loggedIn" class="login_Cond" >*To view Stock Recommendations and your Profile containing Saved Stocks, Please Log IN</p>
+

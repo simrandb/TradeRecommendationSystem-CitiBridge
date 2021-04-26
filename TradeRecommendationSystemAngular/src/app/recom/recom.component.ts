@@ -6,8 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recom.component.css']
 })
 export class RecomComponent implements OnInit {
+  loggedIn : Boolean = false
 
-  constructor() { }
+  constructor() { 
+    if(localStorage.getItem('username') != null)
+      this.loggedIn=true;
+  
+  }
 
   ngOnInit(): void {
   }

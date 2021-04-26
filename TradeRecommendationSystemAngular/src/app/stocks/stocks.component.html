@@ -1,25 +1,17 @@
-<p>stocks works!</p>
-<br><br><br>
+
 <div class="main">
-<h1>Name : </h1>
+    <br>
+    <a *ngIf="loggedIn" href="./logout">Log Out</a>
+<h1>Name :  {{userName}}</h1>
 <br><br><br>
-<h2> Stocks info from MySql database for userid : 1</h2>
-<!--
-<table border="7" class="tt">
-    <tr>
-        <td><b>STOCK SYMBOL</b></td>
-        <td><b>QUANTITY</b></td>
-    </tr>
-    <tr *ngFor="let s of stocks" >
-        <td>{{s.savedStockSymbol }}</td>
-        <td style="text-align:center">{{s.quantity}}</td>
-    </tr>
-</table>
--->
+
+<h2> Stocks info from MySql database for user - </h2>
+
 <div *ngFor="let s of stocks" class="set">
     <div class="card">
-    <p>STOCK NAME = {{s.savedStockSymbol }}</p>
-    <p>QUANTITY = {{s.quantity}}</p>
+        <button type="button" (click)="unSave(s.savedStockSymbol)">Remove</button>
+        <p>STOCK NAME = {{s.savedStockSymbol }}</p>
+        <p>QUANTITY = {{s.quantity}}</p>
 </div>
 </div>
 </div>

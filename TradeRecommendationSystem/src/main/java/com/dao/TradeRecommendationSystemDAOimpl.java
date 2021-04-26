@@ -319,9 +319,15 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	//Done
 	public int unsaveAStock(int userid,String stockSymbol)
 	{
+<<<<<<< HEAD
 		String  deleteRecord= "delete from stocks values where customerid=? and savedstocksymbol=?";
 		return template.update(deleteRecord,userid, stockSymbol);
 
+=======
+		String  deleteRecord= "delete from stocks where customerid=? and savedstocksymbol=?";
+		return template.update(deleteRecord,userid, stockSymbol);
+		
+>>>>>>> 300c4ec485f40e676c57cc8efa297558d9802b2b
 	}
 	
 	
@@ -387,11 +393,17 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		String  updateRecord= "update customer set logged=? where username=?";
 		template.update(updateRecord,loggedStatus, username);
 	}
+<<<<<<< HEAD
 	
 	
 	
 	
 	public ArrayList<Long> Determinininggrowthdates()
+=======
+
+	/*
+	 * public ArrayList<Long> Determinininggrowthdates()
+>>>>>>> 300c4ec485f40e676c57cc8efa297558d9802b2b
 	{
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
 	    java.util.Date date = new java.util.Date();  

@@ -62,7 +62,7 @@ public class TradeRecommendationController {
 	//Ready-to-use	
 	//------------------------------------------------------------------------------------------------
 	//to check username exists in database
-		@RequestMapping(value = "/checkuserexists/{username}")
+		@RequestMapping(value = "/checkuserexists/{username}", method= RequestMethod.GET)
 		public boolean verifyUser(@PathVariable String username) {
 			
 			boolean userexist=dao.checkUsernameExistInDatabase(username);
@@ -87,10 +87,17 @@ public class TradeRecommendationController {
 	//Ready-to-use	
 	//------------------------------------------------------------------------------------------------
 	//to fetch userid
+<<<<<<< HEAD
 	@RequestMapping(value = "/getuserid")
 	public int sendUserid(String username) {
 			int uid=dao.getUid(username);		
 			return uid;
+=======
+	@RequestMapping(value = "/getuserid", method=RequestMethod.GET)
+	public int sendUserid(String username) {
+		//System.out.println(dao.getUid(username));
+			return dao.getUid(username);
+>>>>>>> 300c4ec485f40e676c57cc8efa297558d9802b2b
 	}
 	
 	
@@ -120,11 +127,19 @@ public class TradeRecommendationController {
 	//Ready-to-use	
 	//------------------------------------------------------------------------------------------------
 	//to delete saved stock entry for a customer
+<<<<<<< HEAD
 	@RequestMapping(value = "/unsavestock")
 	public int unsaveStock(int userid,String stockSymbol) {
 
 		int integers=dao.unsaveAStock(userid, stockSymbol);
 		return integers;
+=======
+	@RequestMapping(value = "/unsavestock", method=RequestMethod.GET)
+	public int unsaveStock(int userid,String stockSymbol) {
+
+		return dao.unsaveAStock(userid, stockSymbol);
+		
+>>>>>>> 300c4ec485f40e676c57cc8efa297558d9802b2b
 	}
 	
 	
