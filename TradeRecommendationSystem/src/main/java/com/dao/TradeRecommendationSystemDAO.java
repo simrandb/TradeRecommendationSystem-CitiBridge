@@ -27,28 +27,31 @@ public interface TradeRecommendationSystemDAO {
 	public String x_rapidapi_key="fc5143996fmshdc74c92bd29fd1cp19b94ajsn3b5925dc08d2";
 	public String x_rapidapi_host="apidojo-yahoo-finance-v1.p.rapidapi.com";
 	public String [] dummynsestocks={"RELIANCE",
-			"TCS",
-			"HDFCBANK",
-			"INFY",
-			"HINDUNILVR",
-			"HDFC",
-			"ICICIBANK",
-			"KOTAKBANK",
-			"SBIN",
-			"BAJFINANCE",
-			"BHARTIARTL",
-			"ITC",
-			"HCLTECH",
-			"HINDZINC",
-			"ADANIENT",
-			"JSWSTEEL",
+			
+			
+			
+			"BAJAJ-AUTO",			
+			"TATASTEEL",
+			"TECHM",
+			"SBILIFE",
+			"EICHERMOT",
 			"POWERGRID",
-			"SHREECEM",
-			"BAJAJ-AUTO",
-			"ATGL",
-			"NTPC",
-			"TATAMOTORS",
-			"SUNDRMFAST",
+			"SBIN",
+			"GRASIM",
+			"HDFCLIFE",
+			"HINDUNILVR",
+			"ICICIBANK",
+			"ULTRACEMCO",
+			"JSWSTEEL",
+			"AXISBANK",
+			"RELIANCE",
+			
+			"SAIL","GODREJPROP","TVSMOTOR","PAGEIND","CUMMINSIND","RBLBANK","CANBK","BATAINDIA","SUNTV",
+			"FEDERALBNK","ASHOKLEY", "MINDTREE","MFSL","IDFCFIRSTB","JINDALSTEL",
+
+
+			"ALKYLAMINE","CANFINHOME","FRETAIL","AFFLE","UTIAMC","GRAPHITE","CHAMBLFERT","CAMS","IDFC","FSL",
+			"ALOKINDS","WOCKPHARMA","PNBHOUSING","RALLIS","INDIANB"
 			
 			};
 	

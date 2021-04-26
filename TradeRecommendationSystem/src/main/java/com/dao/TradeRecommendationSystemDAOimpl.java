@@ -182,17 +182,17 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			             level = getSth.getJSONObject("marketCap");
 			        }
 			             long marketCap=(long)level.get("raw");
-			             if (marketCap>=10000000000L)
+			             if (marketCap>=500000000000L)
 			             {
 			            	 marketCapString="Large Cap";
 			             }
-			             else if (marketCap>=2000000000L)
+			             else if (marketCap>=150000000000L)
 			             {
 			            	 marketCapString="Mid Cap";			            	 
 			             }
 			             else
 			             {
-			            	 marketCapString="Mid Cap";			            	 			            	 
+			            	 marketCapString="Small Cap";			            	 			            	 
 			             }
 			             System.out.println(marketCapString);
 			             
@@ -319,15 +319,10 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	//Done
 	public int unsaveAStock(int userid,String stockSymbol)
 	{
-<<<<<<< HEAD
-		String  deleteRecord= "delete from stocks values where customerid=? and savedstocksymbol=?";
-		return template.update(deleteRecord,userid, stockSymbol);
 
-=======
 		String  deleteRecord= "delete from stocks where customerid=? and savedstocksymbol=?";
 		return template.update(deleteRecord,userid, stockSymbol);
 		
->>>>>>> 300c4ec485f40e676c57cc8efa297558d9802b2b
 	}
 	
 	
@@ -393,17 +388,11 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		String  updateRecord= "update customer set logged=? where username=?";
 		template.update(updateRecord,loggedStatus, username);
 	}
-<<<<<<< HEAD
 	
 	
 	
 	
-	public ArrayList<Long> Determinininggrowthdates()
-=======
-
-	/*
-	 * public ArrayList<Long> Determinininggrowthdates()
->>>>>>> 300c4ec485f40e676c57cc8efa297558d9802b2b
+public ArrayList<Long> Determinininggrowthdates()
 	{
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
 	    java.util.Date date = new java.util.Date();  
