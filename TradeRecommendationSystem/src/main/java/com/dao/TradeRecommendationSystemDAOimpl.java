@@ -303,7 +303,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		String  updateRecord= "update customer set logged=? where username=?;";
 		template.update(updateRecord,loggedStatus, username);
 	}
-	
+
 	/*
 	 * public ArrayList<Long> Determinininggrowthdates()
 	{
