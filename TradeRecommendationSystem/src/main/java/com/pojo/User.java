@@ -6,20 +6,7 @@ import java.util.List;
 public class User {
 	private String userName,password;
 	private int userId; 
-	private Date dateModified;
 	
-	public Date getDateModified() {
-		return dateModified;
-	}
-
-	public void setDateModified(Date dateModified) {
-		this.dateModified = dateModified;
-	}
-
-	public User(Date dateModified) {
-		super();
-		this.dateModified = dateModified;
-	}
 
 	public User(String userName, String password, int userId) {
 		super();

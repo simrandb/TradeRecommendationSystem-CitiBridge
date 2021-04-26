@@ -1,5 +1,7 @@
 package com.pojo;
 
+import java.sql.Date;
+
 public class NseStock {
 
 	private String companySymbol;
@@ -7,6 +9,7 @@ public class NseStock {
 	private double growth;
 	private double growthpercent;
 	private String marketCap;
+	private Date dateModified;
 	
 	
 	
@@ -14,9 +17,24 @@ public class NseStock {
 	
 	
 	
+	
+	public Date getDateModified() {
+		return dateModified;
+	}
+
+	public void setDateModified(Date dateModified) {
+		this.dateModified = dateModified;
+	}
+
+	public NseStock(Date dateModified) {
+		super();
+		this.dateModified = dateModified;
+	}
+
 	public NseStock() {
 		super();
 	}
+	
 	public NseStock(String sector, double growth, double growthpercent, String marketCap) {
 		super();
 		Sector = sector;
@@ -63,10 +81,12 @@ public class NseStock {
 	public void setMarketCap(String marketCap) {
 		this.marketCap = marketCap;
 	}
+
 	@Override
 	public String toString() {
 		return "NseStock [companySymbol=" + companySymbol + ", Sector=" + Sector + ", growth=" + growth
-				+ ", growthpercent=" + growthpercent + ", marketCap=" + marketCap + "]";
+				+ ", growthpercent=" + growthpercent + ", marketCap=" + marketCap + ", dateModified=" + dateModified
+				+ "]";
 	}
 	
 	

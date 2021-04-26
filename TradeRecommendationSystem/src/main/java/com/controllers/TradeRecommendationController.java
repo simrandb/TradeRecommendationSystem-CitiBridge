@@ -4,6 +4,7 @@ import java.awt.PageAttributes.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,10 @@ public class TradeRecommendationController {
 	public boolean verifyUser(String username, String password) {
 		
 		boolean userVerified=dao.verifyUser(username, password);
-		//dao.updateDatabaseForToday();
+		dao.updateDatabaseForToday();
 		return userVerified;
+		
+		
 		
 	}
 	
@@ -85,9 +88,9 @@ public class TradeRecommendationController {
 	//------------------------------------------------------------------------------------------------
 	//to fetch userid
 	@RequestMapping(value = "/getuserid")
-	public void sendUserid(String username) {
-			dao.getUid(username);		
-
+	public int sendUserid(String username) {
+			int uid=dao.getUid(username);		
+			return uid;
 	}
 	
 	
@@ -118,10 +121,10 @@ public class TradeRecommendationController {
 	//------------------------------------------------------------------------------------------------
 	//to delete saved stock entry for a customer
 	@RequestMapping(value = "/unsavestock")
-	public void unsaveStock(int userid,String stockSymbol) {
+	public int unsaveStock(int userid,String stockSymbol) {
 
-		dao.unsaveAStock(userid, stockSymbol);
-		
+		int integers=dao.unsaveAStock(userid, stockSymbol);
+		return integers;
 	}
 	
 	

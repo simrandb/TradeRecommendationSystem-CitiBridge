@@ -8,13 +8,16 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 
 import java.net.URL;
 import java.sql.Connection;
-
+import java.sql.Date;
 import java.util.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.net.HttpURLConnection;
@@ -58,7 +61,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	
 	//Done
 	public int getUid(String username) {
-		String getuid = "select * from customerid where username=?";
+		String getuid = "select * from customer where username=?";
 		User user = template.queryForObject(getuid, new RowMapper<User>() {
 
 			@Override
@@ -109,6 +112,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		
 		if (user.getPassword().equals(password))
 		{
+			changeUserLoggedStatus(0, username);
 			return true;
 		}
 		return false;
@@ -135,7 +139,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	}
 	
 	
-	//growth insertion left, waiting for timestamp function from rashika
+	//Done
 	public void updateDatabaseForToday()
 	{
 		int toUpdate=checkDateModifiedOfDatabase();
@@ -145,11 +149,15 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			return;
 		}
 		Object raw=null;
-		String  insertRecord= "insert into nse_stocks(marketCap,growth,growthpercent,dateModified) values(?,?,?,curdate())";
+		String  insertRecord= "update nse_stocks set marketCap=?, growth=?, growthpercent=?, dateModified=(select curdate()) where companySymbol=?";
 		NseStock nsestock=new NseStock();
+		String marketCapString="";
+		ArrayList<Long> timestamps=Determinininggrowthdates();
 		for(String stock : dummynsestocks)
 		{
 			 try {
+				 
+				 	//for market cap
 			        String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol="+stock+".NS"+"&region=IN";
 			        URL obj = new URL(url);
 			        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -163,17 +171,87 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			                new InputStreamReader(con.getInputStream()));
 			        String inputLine;
 			        StringBuffer response = new StringBuffer();
+			        JSONObject myResponse=null, level=null;
 			        while ((inputLine = in.readLine()) != null) {
 			        	response.append(inputLine);
 			             //print in String
-			             JSONObject myResponse = new JSONObject(response.toString());
+			             myResponse = new JSONObject(response.toString());
 			             
-			             
+			        
 			             JSONObject getSth = myResponse.getJSONObject("price");
-			             JSONObject level = getSth.getJSONObject("marketCap");
-			             raw=level.get("raw");
+			             level = getSth.getJSONObject("marketCap");
+			        }
+			             long marketCap=(long)level.get("raw");
+			             if (marketCap>=10000000000L)
+			             {
+			            	 marketCapString="Large Cap";
+			             }
+			             else if (marketCap>=2000000000L)
+			             {
+			            	 marketCapString="Mid Cap";			            	 
+			             }
+			             else
+			             {
+			            	 marketCapString="Mid Cap";			            	 			            	 
+			             }
+			             System.out.println(marketCapString);
+			             
+			        
+			        
+			        
+			        
+			        
+			        //for growth and growthpercent
+			        url="https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v3/get-historical-data?symbol="+stock+".NS&region=IN";
+			        obj = new URL(url);
+			        con = (HttpURLConnection) obj.openConnection();
+			        con.setRequestMethod("GET");
+			        con.setRequestProperty("x-rapidapi-key",x_rapidapi_key );
+			        con.setRequestProperty("x_rapidapi_host",x_rapidapi_host );
+			        responseCode = con.getResponseCode();
+			        in = new BufferedReader(
+			                new InputStreamReader(con.getInputStream()));
+			        response = new StringBuffer();
+			        JSONArray getSth=null;
+			        while ((inputLine = in.readLine()) != null) {
+			        	response.append(inputLine);
+			             myResponse = new JSONObject(response.toString());	
+			             getSth = myResponse.getJSONArray("prices");
+			        }
+			        
+			        
+			             JSONObject object = getSth.getJSONObject(0);
+			             Double priceToday = object.getDouble("open");
+			             Double pricePast=0.0;
+			             
+			           for (int i = 0, size = getSth.length(); i < size; i++)
+			           {
+			        	   object = getSth.getJSONObject(i);
+			        	   Long l1=object.getLong("date");
+			        	   Long l2=timestamps.get(1);
+			        	   if (l1.equals(l2))
+			        	   {
+			        		   pricePast=object.getDouble("open");
+			        		   break;
+			        	   }
+			           }
+			           System.out.println(priceToday);
+			           System.out.println(pricePast);
+			             
+			           Double growthPercent=(java.lang.Math.abs(priceToday-pricePast)*100)/pricePast;
+			           if (priceToday<pricePast)
+			           {
+			        	   growthPercent=-growthPercent;
+			           }
+			             
+			        
+					template.update(insertRecord,marketCapString,java.lang.Math.abs(priceToday-pricePast) ,growthPercent,stock);
+
+			             
 			  }
-			  }
+
+			        
+			  
 
 			     catch (Exception e) {
 			        e.printStackTrace();
@@ -182,12 +260,12 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			//nsestock.setMarketCap();
 			//nsestock.setGrowth();
 			//nsestock.setGrowthpercent();
-			template.update(insertRecord,raw, nsestock.getGrowth(),nsestock.getGrowthpercent());
+	
 		}
 
-		
-		
 	}
+		
+	
 
 	
 	//Done
@@ -239,32 +317,38 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	
 	
 	//Done
-	public void unsaveAStock(int userid,String stockSymbol)
+	public int unsaveAStock(int userid,String stockSymbol)
 	{
 		String  deleteRecord= "delete from stocks values where customerid=? and savedstocksymbol=?";
-		template.update(deleteRecord,userid, stockSymbol);
+		return template.update(deleteRecord,userid, stockSymbol);
 
 	}
 	
 	
-	//comparing with last working day left, waiting for timestamp function from rashika
-	//To work on directly timestamps instead of Dates 
+	//Done
 	public int checkDateModifiedOfDatabase()
 	{
-		String findpwd = "select * from nse_stocks where companySymbol=?";
-		User user = template.queryForObject(findpwd, new RowMapper<User>() {
+		String findpwd = "select * from nse_stocks where companySymbol='RELIANCE'";
+		NseStock stock = template.queryForObject(findpwd, new RowMapper<NseStock>() {
 
 			@Override
-			public User mapRow(ResultSet set, int arg1) throws SQLException {
+			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
 				// TODO Auto-generated method stub
-				return new User(set.getDate(6));
+				return new NseStock(set.getDate(5));
 			}
 
-		},"RELIANCE");
+		});
+		 
+		java.sql.Timestamp timestamp1 = new java.sql.Timestamp(stock.getDateModified().getTime());
+		Date date1 = Date.valueOf(timestamp1.toLocalDateTime().toLocalDate());
 		
-		long millis=System.currentTimeMillis();  
-		java.sql.Date date=new java.sql.Date(millis);  
-		if(user.getDateModified().compareTo(date)==0 )
+		ArrayList<Long> timestamps=Determinininggrowthdates();
+		Date date2 = new Date( (long)timestamps.get(0)* 1000);
+		System.out.println(date2);
+		
+		System.out.println(date1+" and "+date2);
+		System.out.println(date1.toString().equals(date2.toString()));
+		if( date1.toString().equals(date2.toString()))
 		{
 			return 0;
 		}
@@ -300,25 +384,28 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	//Done
 	public void changeUserLoggedStatus(int loggedStatus,String username)
 	{
-		String  updateRecord= "update customer set logged=? where username=?;";
+		String  updateRecord= "update customer set logged=? where username=?";
 		template.update(updateRecord,loggedStatus, username);
 	}
-	/*
-	 * public ArrayList<Long> Determinininggrowthdates()
+	
+	
+	
+	
+	public ArrayList<Long> Determinininggrowthdates()
 	{
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
-	    Date date = new Date();  
+	    java.util.Date date = new java.util.Date();  
 	 //   System.out.println(formatter.format(date));
 		Calendar c= Calendar.getInstance();
-		c.set(Calendar.HOUR_OF_DAY, 03);
-	    c.set(Calendar.MINUTE, 45);
+		c.set(Calendar.HOUR_OF_DAY, 9);
+	    c.set(Calendar.MINUTE, 15);
 	    c.set(Calendar.SECOND, 0);
 		c.setTime(date);
 		int day=c.get(Calendar.DAY_OF_WEEK);
 		Long timestamp1 = calculate(day);  //for current workingday
 		final Calendar cal3 = Calendar.getInstance(); 
-	    cal3.set(Calendar.HOUR_OF_DAY, 03);
-	    cal3.set(Calendar.MINUTE, 45);
+	    cal3.set(Calendar.HOUR_OF_DAY, 9);
+	    cal3.set(Calendar.MINUTE, 15);
 	    cal3.set(Calendar.SECOND, 0);
 	    cal3.add(Calendar.DATE, -14);
 	    int date2=cal3.get(Calendar.DATE);
@@ -327,8 +414,12 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		ArrayList<Long> timestamps = new ArrayList<>();
 		timestamps.add(timestamp1);
 	    timestamps.add(timestamp2);
-		return timestamps;
+	    System.out.println(timestamp1);
+	    System.out.println(timestamp2);
+	    return timestamps;
 	}
+	
+	
 	public long calculate(int day)
 	{
 		long ts = 0;
@@ -336,8 +427,8 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		if(day==7)
 		{
 			    final Calendar call = Calendar.getInstance();
-			    call.set(Calendar.HOUR_OF_DAY, 03);
-			    call.set(Calendar.MINUTE, 45);
+			    call.set(Calendar.HOUR_OF_DAY, 9);
+			    call.set(Calendar.MINUTE, 15);
 			    call.set(Calendar.SECOND, 0);
 			    call.add(Calendar.DATE, -1);
 			    int datee = call.get(Calendar.DATE);
@@ -349,8 +440,8 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		else if(day==1)
 		{
 			final Calendar call = Calendar.getInstance();
-			call.set(Calendar.HOUR_OF_DAY, 03);
-		    call.set(Calendar.MINUTE, 45);
+			call.set(Calendar.HOUR_OF_DAY, 9);
+		    call.set(Calendar.MINUTE, 15);
 		    call.set(Calendar.SECOND, 0);
 		    call.add(Calendar.DATE, -2);
 		    int date2=call.get(Calendar.DATE);
@@ -362,8 +453,8 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		else
 		{
 			final Calendar call = Calendar.getInstance();
-			call.set(Calendar.HOUR_OF_DAY, 03);
-		    call.set(Calendar.MINUTE, 45);
+			call.set(Calendar.HOUR_OF_DAY, 9);
+		    call.set(Calendar.MINUTE, 15);
 		    call.set(Calendar.SECOND, 0);
 		    call.add(Calendar.DATE,0);
 		    int date2=call.get(Calendar.DATE);
@@ -371,6 +462,8 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		}
 		return ts;
 	}
+	
+	
 	public long calculate1(int datee)
 	{
 		long ts = 0;
@@ -378,8 +471,8 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		if(datee==7)
 		{
 			    final Calendar cal = Calendar.getInstance();
-			    cal.set(Calendar.HOUR_OF_DAY, 03);
-			    cal.set(Calendar.MINUTE, 45);
+			    cal.set(Calendar.HOUR_OF_DAY, 9);
+			    cal.set(Calendar.MINUTE, 15);
 			    cal.set(Calendar.SECOND, 0);
 			    cal.add(Calendar.DATE, -15);
 			    int datt = cal.get(Calendar.DATE);
@@ -391,8 +484,8 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		else if(datee==1)
 		{
 			final Calendar cal = Calendar.getInstance();
-			cal.set(Calendar.HOUR_OF_DAY, 03);
-		    cal.set(Calendar.MINUTE, 45);
+			cal.set(Calendar.HOUR_OF_DAY, 9);
+		    cal.set(Calendar.MINUTE, 15);
 		    cal.set(Calendar.SECOND, 0);
 		    cal.add(Calendar.DATE, -16);
 		    int date2=cal.get(Calendar.DATE);
@@ -404,8 +497,8 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		else
 		{
 			final Calendar cal = Calendar.getInstance();
-			cal.set(Calendar.HOUR_OF_DAY, 03);
-		    cal.set(Calendar.MINUTE, 45);
+			cal.set(Calendar.HOUR_OF_DAY, 9);
+		    cal.set(Calendar.MINUTE, 15);
 		    cal.set(Calendar.SECOND, 0);
 		    cal.add(Calendar.DATE,-14);
 		    int date2=cal.get(Calendar.DATE);
@@ -413,6 +506,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		}
 		return ts;
 	}
-	 */
+	
+	 
 
 }

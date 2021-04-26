@@ -1,6 +1,8 @@
 package com.dao;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.pojo.NseStock;
@@ -14,10 +16,14 @@ public interface TradeRecommendationSystemDAO {
 	public List<NseStock> stocksForSelectedFilters(String marketCapSelected, String sector, int topHowMany);
 	public void updateDatabaseForToday();
 	public void insertCompanySymbolsAndSector();
-	public void unsaveAStock(int userid,String stockSymbol);
+	public int unsaveAStock(int userid,String stockSymbol);
 	public int checkDateModifiedOfDatabase();
 	public boolean checkUsernameExistInDatabase(String username);
 	public void changeUserLoggedStatus(int loggedStatus,String username);
+	public ArrayList<Long> Determinininggrowthdates();
+	public long calculate(int day);
+	public long calculate1(int datee);
+
 	public String x_rapidapi_key="fc5143996fmshdc74c92bd29fd1cp19b94ajsn3b5925dc08d2";
 	public String x_rapidapi_host="apidojo-yahoo-finance-v1.p.rapidapi.com";
 	public String [] dummynsestocks={"RELIANCE",
@@ -32,7 +38,18 @@ public interface TradeRecommendationSystemDAO {
 			"BAJFINANCE",
 			"BHARTIARTL",
 			"ITC",
-			"HCLTECH"
+			"HCLTECH",
+			"HINDZINC",
+			"ADANIENT",
+			"JSWSTEEL",
+			"POWERGRID",
+			"SHREECEM",
+			"BAJAJ-AUTO",
+			"ATGL",
+			"NTPC",
+			"TATAMOTORS",
+			"SUNDRMFAST",
+			
 			};
 	
 	// Took all nse symbols from a downloaded csv from NSE
