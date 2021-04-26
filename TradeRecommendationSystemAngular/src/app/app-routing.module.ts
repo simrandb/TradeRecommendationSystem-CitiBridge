@@ -11,6 +11,7 @@ import { RecomComponent } from './recom/recom.component';
 import { HomeComponent} from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { StocksComponent } from './stocks/stocks.component';
+import { LogoutComponent } from './logout/logout.component';
 
 const routes: Routes = [
   { path: 'app', component: AppComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'stockss', component: StocksComponent },
+  { path: 'logout', component: LogoutComponent },
   { path: '', pathMatch:'full' , redirectTo: 'home' }
   
 ];

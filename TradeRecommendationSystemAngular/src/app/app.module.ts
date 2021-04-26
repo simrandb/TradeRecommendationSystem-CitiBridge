@@ -11,8 +11,8 @@ import { AllStocksComponent } from './all-stocks/all-stocks.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { StocksComponent } from './stocks/stocks.component';
-//import { CommonComponent } from './common/common.component';
-//import { CookieService } from 'ngx-cookie-service';
+import { LogoutComponent } from './logout/logout.component';
+
 
 @NgModule({
   declarations: [
@@ -24,6 +24,7 @@ import { StocksComponent } from './stocks/stocks.component';
     HomeComponent,
     ProfileComponent,
     StocksComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,

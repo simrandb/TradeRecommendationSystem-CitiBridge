@@ -47,4 +47,5 @@ button.b1{
 button:hover{
     /*background-color: chartreuse;
     */background-color: #0b0c10;
+    cursor: pointer;
 }

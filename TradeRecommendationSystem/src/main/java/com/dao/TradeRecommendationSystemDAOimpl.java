@@ -58,7 +58,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	
 	//Done
 	public int getUid(String username) {
-		String getuid = "select * from customerid where username=?";
+		String getuid = "select * from customer where username=?";
 		User user = template.queryForObject(getuid, new RowMapper<User>() {
 
 			@Override
@@ -239,11 +239,11 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	
 	
 	//Done
-	public void unsaveAStock(int userid,String stockSymbol)
+	public int unsaveAStock(int userid,String stockSymbol)
 	{
-		String  deleteRecord= "delete from stocks values where customerid=? and savedstocksymbol=?";
-		template.update(deleteRecord,userid, stockSymbol);
-
+		String  deleteRecord= "delete from stocks where customerid=? and savedstocksymbol=?";
+		return template.update(deleteRecord,userid, stockSymbol);
+		
 	}
 	
 	
@@ -303,5 +303,117 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		String  updateRecord= "update customer set logged=? where username=?;";
 		template.update(updateRecord,loggedStatus, username);
 	}
+	
+	/*
+	 * public ArrayList<Long> Determinininggrowthdates()
+	{
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+	    Date date = new Date();  
+	 //   System.out.println(formatter.format(date));
+		Calendar c= Calendar.getInstance();
+		c.set(Calendar.HOUR_OF_DAY, 03);
+	    c.set(Calendar.MINUTE, 45);
+	    c.set(Calendar.SECOND, 0);
+		c.setTime(date);
+		int day=c.get(Calendar.DAY_OF_WEEK);
+		Long timestamp1 = calculate(day);  //for current workingday
+		final Calendar cal3 = Calendar.getInstance(); 
+	    cal3.set(Calendar.HOUR_OF_DAY, 03);
+	    cal3.set(Calendar.MINUTE, 45);
+	    cal3.set(Calendar.SECOND, 0);
+	    cal3.add(Calendar.DATE, -14);
+	    int date2=cal3.get(Calendar.DATE);
+	    int datee = cal3.get(Calendar.DAY_OF_WEEK);
+		Long timestamp2 = calculate1(datee);  //for 2 week ago workingday
+		ArrayList<Long> timestamps = new ArrayList<>();
+		timestamps.add(timestamp1);
+	    timestamps.add(timestamp2);
+		return timestamps;
+	}
+	public long calculate(int day)
+	{
+		long ts = 0;
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+		if(day==7)
+		{
+			    final Calendar call = Calendar.getInstance();
+			    call.set(Calendar.HOUR_OF_DAY, 03);
+			    call.set(Calendar.MINUTE, 45);
+			    call.set(Calendar.SECOND, 0);
+			    call.add(Calendar.DATE, -1);
+			    int datee = call.get(Calendar.DATE);
+			//    System.out.println("Working date is : ");
+			  //  System.out.println(formatter.format(call.getTime()));
+			   // System.out.println(call.getTimeInMillis());
+			    ts=call.getTimeInMillis()/1000;
+		}
+		else if(day==1)
+		{
+			final Calendar call = Calendar.getInstance();
+			call.set(Calendar.HOUR_OF_DAY, 03);
+		    call.set(Calendar.MINUTE, 45);
+		    call.set(Calendar.SECOND, 0);
+		    call.add(Calendar.DATE, -2);
+		    int date2=call.get(Calendar.DATE);
+		   // System.out.println("Working date is : ");
+		    //System.out.println(formatter.format(call.getTime()));
+		    //System.out.println(call.getTimeInMillis()/1000);
+		    ts= call.getTimeInMillis()/1000;
+		}
+		else
+		{
+			final Calendar call = Calendar.getInstance();
+			call.set(Calendar.HOUR_OF_DAY, 03);
+		    call.set(Calendar.MINUTE, 45);
+		    call.set(Calendar.SECOND, 0);
+		    call.add(Calendar.DATE,0);
+		    int date2=call.get(Calendar.DATE);
+			ts=call.getTimeInMillis()/1000;
+		}
+		return ts;
+	}
+	public long calculate1(int datee)
+	{
+		long ts = 0;
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+		if(datee==7)
+		{
+			    final Calendar cal = Calendar.getInstance();
+			    cal.set(Calendar.HOUR_OF_DAY, 03);
+			    cal.set(Calendar.MINUTE, 45);
+			    cal.set(Calendar.SECOND, 0);
+			    cal.add(Calendar.DATE, -15);
+			    int datt = cal.get(Calendar.DATE);
+			   // System.out.println("Working date is : ");
+			   // System.out.println(formatter.format(cal.getTime()));
+			   // System.out.println(cal.getTimeInMillis());
+			    ts=cal.getTimeInMillis()/1000;
+		}
+		else if(datee==1)
+		{
+			final Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.HOUR_OF_DAY, 03);
+		    cal.set(Calendar.MINUTE, 45);
+		    cal.set(Calendar.SECOND, 0);
+		    cal.add(Calendar.DATE, -16);
+		    int date2=cal.get(Calendar.DATE);
+		   // System.out.println("Working date is : ");
+		  //  System.out.println(formatter.format(cal.getTime()));
+		  //  System.out.println(cal.getTimeInMillis()/1000);
+		    ts= cal.getTimeInMillis()/1000;
+		}
+		else
+		{
+			final Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.HOUR_OF_DAY, 03);
+		    cal.set(Calendar.MINUTE, 45);
+		    cal.set(Calendar.SECOND, 0);
+		    cal.add(Calendar.DATE,-14);
+		    int date2=cal.get(Calendar.DATE);
+			ts=cal.getTimeInMillis()/1000;
+		}
+		return ts;
+	}
+	 */
 
 }

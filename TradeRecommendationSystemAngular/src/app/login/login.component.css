@@ -8,19 +8,20 @@ body
 }  
 .login{  
         width: 350px;  
-        overflow: hidden;  
+        overflow: visible;  
         margin: auto;  
         margin: 20 0 0 450px;  
         padding: 80px;  
         background: #1f2833;  
-        border-radius: 15px ;  
-          
+        border-radius: 15px ;   
+        position: relative;      
 }  
-h2{  
+
+h1{  
     text-align: center;  
     color: #66fcf1;; 
-    font-size: 35px; 
-    padding: 20px;  
+    /*font-size: 35px; 
+    */padding: 20px;  
     font-family: Georgia, 'Times New Roman', Times, serif;
 }  
 label{  
@@ -28,14 +29,14 @@ label{
     font-size: 20px;  
     font-family: serif;
 }  
-#username{  
+form input[type="text"]{  
     width: 300px;  
     height: 35px;  
     border: none;  
     border-radius: 3px;  
     padding-left: 8px;  
 }  
-#password{  
+form input[type="password"]{  
     width: 300px;  
     height: 35px;  
     border: none;  

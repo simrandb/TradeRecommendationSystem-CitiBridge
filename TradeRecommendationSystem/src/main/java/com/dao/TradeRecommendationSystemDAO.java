@@ -14,7 +14,7 @@ public interface TradeRecommendationSystemDAO {
 	public List<NseStock> stocksForSelectedFilters(String marketCapSelected, String sector, int topHowMany);
 	public void updateDatabaseForToday();
 	public void insertCompanySymbolsAndSector();
-	public void unsaveAStock(int userid,String stockSymbol);
+	public int unsaveAStock(int userid,String stockSymbol);
 	public int checkDateModifiedOfDatabase();
 	public boolean checkUsernameExistInDatabase(String username);
 	public void changeUserLoggedStatus(int loggedStatus,String username);

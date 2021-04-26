@@ -4,6 +4,7 @@ import java.awt.PageAttributes.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class TradeRecommendationController {
 	//Ready-to-use	
 	//------------------------------------------------------------------------------------------------
 	//to check username exists in database
-		@RequestMapping(value = "/checkuserexists/{username}")
+		@RequestMapping(value = "/checkuserexists/{username}", method= RequestMethod.GET)
 		public boolean verifyUser(@PathVariable String username) {
 			
 			boolean userexist=dao.checkUsernameExistInDatabase(username);
@@ -84,10 +85,10 @@ public class TradeRecommendationController {
 	//Ready-to-use	
 	//------------------------------------------------------------------------------------------------
 	//to fetch userid
-	@RequestMapping(value = "/getuserid")
-	public void sendUserid(String username) {
-			dao.getUid(username);		
-
+	@RequestMapping(value = "/getuserid", method=RequestMethod.GET)
+	public int sendUserid(String username) {
+		//System.out.println(dao.getUid(username));
+			return dao.getUid(username);
 	}
 	
 	
@@ -117,10 +118,10 @@ public class TradeRecommendationController {
 	//Ready-to-use	
 	//------------------------------------------------------------------------------------------------
 	//to delete saved stock entry for a customer
-	@RequestMapping(value = "/unsavestock")
-	public void unsaveStock(int userid,String stockSymbol) {
+	@RequestMapping(value = "/unsavestock", method=RequestMethod.GET)
+	public int unsaveStock(int userid,String stockSymbol) {
 
-		dao.unsaveAStock(userid, stockSymbol);
+		return dao.unsaveAStock(userid, stockSymbol);
 		
 	}
 	

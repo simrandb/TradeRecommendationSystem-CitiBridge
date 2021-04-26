@@ -12,18 +12,15 @@ export class LoginService {
 
   public verifyUser(username:Text, password:Text): Observable<boolean>
   {
-    console.log("yayy  login.service.ts yayyy")
-
+    console.log("yayy  service- verifyUser yayyy")
     return this.httpService.get<boolean>("http://localhost:8088/verifyuser?username="+username+"&password="+password);
 
   }
-  /*
-  public getUid(username:Text): number
+  public verifyUserExist(username:Text): Observable<boolean>
   {
-    console.log("in get uid")
-    return this.httpService.get("http://localhost:8088/getUserId?username="+username);
-  }*/
-
+    console.log("yayy  service- verifyUserExist yayyy")
+    return this.httpService.get<boolean>("http://localhost:8088/checkuserexists/"+username);
+  }
 
 }
 
