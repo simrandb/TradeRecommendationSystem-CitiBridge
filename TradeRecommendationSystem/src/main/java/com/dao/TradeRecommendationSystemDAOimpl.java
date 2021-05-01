@@ -60,6 +60,16 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	
 	
 	//Done
+	public void alterSavedStockQuantity(int userid,String companySymbol, String plusminus)
+	{
+		String  updateRecord= "update stocks set quantity=quantity+(?) where customerid=? and savedstocksymbol=?";
+		if(plusminus.toLowerCase().equals("plus"))
+			template.update(updateRecord,+1, userid,companySymbol);
+		else 
+			template.update(updateRecord,-1, userid,companySymbol);
+	}
+	
+	//Done
 	public int getUid(String username) {
 		String getuid = "select * from customer where username=?";
 		User user = template.queryForObject(getuid, new RowMapper<User>() {
@@ -119,12 +129,28 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	}
 
 	
+	
 	//Done
-	public List<NseStock> stocksForSelectedFilters(String marketCapSelected, String sector, int topHowMany)
+	public List<NseStock> stocksForSelectedFilters(String marketCapSelected, String sector, int topHowMany ,String growthNumberOrGrowthPercent)
 	{
-		
-		String find = "select * from nse_stocks where marketCap=? and sector=? order by growthpercent desc limit ?;";
-		List<NseStock> stocks = template.query(find, new RowMapper<NseStock>() {
+		List<NseStock> stocks=null;
+		if (marketCapSelected.equals("any"))
+		{
+			String find = "select * from nse_stocks where sector=? order by ? desc limit ?";
+			stocks = template.query(find, new RowMapper<NseStock>() {
+
+				@Override
+				public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
+					// TODO Auto-generated method stub
+					return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
+				}
+
+			}, sector,growthNumberOrGrowthPercent,topHowMany);
+		}
+		else
+		{
+		String find = "select * from nse_stocks where marketCap=? and sector=? order by ? desc limit ?";
+		stocks = template.query(find, new RowMapper<NseStock>() {
 
 			@Override
 			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
@@ -132,8 +158,8 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 				return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
 			}
 
-		}, marketCapSelected,sector,topHowMany);
-		
+		}, marketCapSelected,sector,growthNumberOrGrowthPercent,topHowMany);
+		}
 		
 		return stocks;
 	}
@@ -180,6 +206,9 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			        
 			             JSONObject getSth = myResponse.getJSONObject("price");
 			             level = getSth.getJSONObject("marketCap");
+			             
+			             
+			             
 			        }
 			             long marketCap=(long)level.get("raw");
 			             if (marketCap>=500000000000L)
