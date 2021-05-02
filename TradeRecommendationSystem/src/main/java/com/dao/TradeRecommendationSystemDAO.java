@@ -23,7 +23,7 @@ public interface TradeRecommendationSystemDAO {
 	public ArrayList<Long> Determinininggrowthdates();
 	public long calculate(int day);
 	public long calculate1(int datee);
-	public void alterSavedStockQuantity(int userid,String companySymbol, String plusminus);
+	public int alterSavedStockQuantity(int userid,String companySymbol, String plusminus);
 
 	
 	

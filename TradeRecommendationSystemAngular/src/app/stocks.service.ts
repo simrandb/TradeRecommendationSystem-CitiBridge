@@ -33,4 +33,11 @@ export class StocksService {
     console.log(this.url)
     return this.httpService.get(this.url)
   }
+
+  public changeQuantity(stkSym:string, sign:string) :Observable<any> {
+  
+    this.url = 'http://localhost:8088/altersavedstockquantity?userid='+parseInt(localStorage.getItem('uid'))+'&companySymbol='+stkSym+'&plusminus='+sign
+    console.log(this.url)
+    return this.httpService.get(this.url)
+  }
 }

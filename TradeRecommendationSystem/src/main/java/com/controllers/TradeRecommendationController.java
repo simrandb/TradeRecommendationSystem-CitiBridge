@@ -43,8 +43,8 @@ public class TradeRecommendationController {
 		//------------------------------------------------------------------------------------------------
 		//alter saved stock quantity (+ or -)
 		@RequestMapping(value = "/altersavedstockquantity", method = RequestMethod.GET )
-		public void alterStockquantity(int userid,String companySymbol, String plusminus) {
-			dao.alterSavedStockQuantity(userid,companySymbol, plusminus);
+		public int alterStockquantity(int userid,String companySymbol, String plusminus) {
+			return dao.alterSavedStockQuantity(userid,companySymbol, plusminus);
 		}
 	
 	

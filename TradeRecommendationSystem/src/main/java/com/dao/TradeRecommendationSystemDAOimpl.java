@@ -60,13 +60,13 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	
 	
 	//Done
-	public void alterSavedStockQuantity(int userid,String companySymbol, String plusminus)
+	public int alterSavedStockQuantity(int userid,String companySymbol, String plusminus)
 	{
 		String  updateRecord= "update stocks set quantity=quantity+(?) where customerid=? and savedstocksymbol=?";
 		if(plusminus.toLowerCase().equals("plus"))
-			template.update(updateRecord,+1, userid,companySymbol);
+			return template.update(updateRecord,+1, userid,companySymbol);
 		else 
-			template.update(updateRecord,-1, userid,companySymbol);
+			return template.update(updateRecord,-1, userid,companySymbol);
 	}
 	
 	//Done
@@ -391,7 +391,6 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	}
 		
 	
-
 	
 	//Done
 	public void insertCompanySymbolsAndSector() 

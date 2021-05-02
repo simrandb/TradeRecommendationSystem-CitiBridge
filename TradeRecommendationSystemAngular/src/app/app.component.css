@@ -6,12 +6,14 @@
 }
 
 header{
-   /* background-color: aqua;
-    color:brown;
-    */background-color: #1f2833;
+    background-color: #1f2833;
     height: 67px;
     text-align : right;
     width: 100%;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+
 }
 
 .main{
@@ -20,9 +22,7 @@ header{
 }
 
 button {
-    /*background-color : #FAE8E0;
-	color: #2E765E;
-	*/color: #66fcf1;
+	color: #66fcf1;
     outline-color: #1f2833;
     background-color: #1f2833;
     padding : 20px 10px;
@@ -31,7 +31,7 @@ button {
 	width: 15%;
     border-top: 2px solid #1f2833;
     border-bottom: 2px solid #1f2833;
-
+    
 }
 button.b2{
     float:left;
@@ -45,7 +45,6 @@ button.b1{
     border-right: 2px solid #1f2833;
 }
 button:hover{
-    /*background-color: chartreuse;
-    */background-color: #0b0c10;
+    background-color: #0b0c10;
     cursor: pointer;
 }
