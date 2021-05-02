@@ -134,9 +134,56 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	public List<NseStock> stocksForSelectedFilters(String marketCapSelected, String sector, int topHowMany ,String growthNumberOrGrowthPercent)
 	{
 		List<NseStock> stocks=null;
-		if (marketCapSelected.equals("any"))
+		
+		if (sector.equals("any") )
 		{
-			String find = "select * from nse_stocks where sector=? order by ? desc limit ?";
+			if (marketCapSelected.equals("any"))
+			{
+				if (growthNumberOrGrowthPercent.equals("growth"))
+				{
+					String find = "select * from nse_stocks order by growth desc limit ?";
+					stocks = template.query(find, new RowMapper<NseStock>() {
+
+						@Override
+						public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
+							// TODO Auto-generated method stub
+							return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
+						}
+
+					},topHowMany);
+				}
+				else
+				{
+				String find = "select * from nse_stocks order by growthpercent desc limit ?";
+				stocks = template.query(find, new RowMapper<NseStock>() {
+
+					@Override
+					public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
+						// TODO Auto-generated method stub
+						return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
+					}
+
+				}, topHowMany);
+				}
+			}
+			else
+			{
+			if (growthNumberOrGrowthPercent.equals("growth"))
+			{
+				String find = "select * from nse_stocks where marketCap=? order by growth desc limit ?";
+				stocks = template.query(find, new RowMapper<NseStock>() {
+
+					@Override
+					public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
+						// TODO Auto-generated method stub
+						return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
+					}
+
+				}, marketCapSelected,topHowMany);
+			}
+			else
+			{
+			String find = "select * from nse_stocks where marketCap=? order by growthpercent desc limit ?";
 			stocks = template.query(find, new RowMapper<NseStock>() {
 
 				@Override
@@ -145,11 +192,59 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 					return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
 				}
 
-			}, sector,growthNumberOrGrowthPercent,topHowMany);
+			}, marketCapSelected,topHowMany);
+			}
+			}
 		}
 		else
 		{
-		String find = "select * from nse_stocks where marketCap=? and sector=? order by ? desc limit ?";
+		if (marketCapSelected.equals("any"))
+		{
+			if (growthNumberOrGrowthPercent.equals("growth"))
+			{
+				String find = "select * from nse_stocks where sector=? order by growth desc limit ?";
+				stocks = template.query(find, new RowMapper<NseStock>() {
+
+					@Override
+					public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
+						// TODO Auto-generated method stub
+						return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
+					}
+
+				}, sector,topHowMany);
+			}
+			else
+			{
+			String find = "select * from nse_stocks where sector=? order by growthpercent desc limit ?";
+			stocks = template.query(find, new RowMapper<NseStock>() {
+
+				@Override
+				public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
+					// TODO Auto-generated method stub
+					return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
+				}
+
+			}, sector,topHowMany);
+			}
+		}
+		else
+		{
+		if (growthNumberOrGrowthPercent.equals("growth"))
+		{
+			String find = "select * from nse_stocks where marketCap=? and sector=? order by growth desc limit ?";
+			stocks = template.query(find, new RowMapper<NseStock>() {
+
+				@Override
+				public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
+					// TODO Auto-generated method stub
+					return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
+				}
+
+			}, marketCapSelected,sector,topHowMany);
+		}
+		else
+		{
+		String find = "select * from nse_stocks where marketCap=? and sector=? order by growthpercent desc limit ?";
 		stocks = template.query(find, new RowMapper<NseStock>() {
 
 			@Override
@@ -158,9 +253,10 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 				return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
 			}
 
-		}, marketCapSelected,sector,growthNumberOrGrowthPercent,topHowMany);
+		}, marketCapSelected,sector,topHowMany);
 		}
-		
+		}
+		}
 		return stocks;
 	}
 	
