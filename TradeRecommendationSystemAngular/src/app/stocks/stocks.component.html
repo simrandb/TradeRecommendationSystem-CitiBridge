@@ -17,7 +17,7 @@
 </div>
 -->
 <br><br>
-<div class="main2"></div> 
+<div class="main2"> 
     <div class="row">       
         <div *ngFor="let s of stocks" class="set">
             <div class="column col-lg-3 col-md-4 col-sm-6">
@@ -33,9 +33,9 @@
                             <div class="content">
                                 <p class="back">QUANTITY = {{s.quantity}}</p>
                                 <br>
-                                <button type="button" (click)="changeQuan(s.savedStockSymbol, 'plus')">+</button>
+                                <button type="button" (click)="changeQuan(s.savedStockSymbol, 'plus', s.quantity)">+</button>
                                 <button type="button" (click)="unSave(s.savedStockSymbol)">Remove</button>
-                                <button type="button" (click)="changeQuan(s.savedStockSymbol, 'minus')">-</button>
+                                <button type="button" (click)="changeQuan(s.savedStockSymbol, 'minus', s.quantity)">-</button>
                             </div>
                         </div>
                     
@@ -45,3 +45,4 @@
         </div>
     </div>
 </div> 
+

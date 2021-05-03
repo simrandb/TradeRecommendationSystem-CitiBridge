@@ -71,7 +71,7 @@ a:hover{
 
 .main2{
     margin-right: 100px;
-    margin-left: 100px;
+    margin-left: 50px;
 }
 
 .content{
@@ -84,7 +84,7 @@ a:hover{
     width: 400px;
     height: 200px;
     perspective: 1000px;
-    margin-left: 50%;
+    margin-left: 50px;
     margin-bottom: 20px;
     margin-top: 30%;
     border-radius: 10px;

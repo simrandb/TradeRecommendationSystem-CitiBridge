@@ -23,10 +23,20 @@ export class StocksComponent implements OnInit {
     location.reload();
   }
   
-  private changeQuan(stkSym: string, sign: string) {
+  private changeQuan(stkSym: string, sign: string, curQuan: number) {
     console.log(sign)
-    this.service.changeQuantity(stkSym, sign).subscribe(data=>{})
-    location.reload();
+    console.log(curQuan)
+    if (curQuan==1 && sign=='minus')
+    {
+      console.log("inside curquan==1")
+      console.log("stksym=minus")
+      this.service.unSaveStk(stkSym).subscribe(data=>{})
+      location.reload();
+    }
+    else{
+      this.service.changeQuantity(stkSym, sign).subscribe(data=>{})
+      location.reload();
+    }
   }
 
   ngOnInit(): void {
