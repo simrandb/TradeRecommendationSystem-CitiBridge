@@ -247,7 +247,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		String find = "select * from nse_stocks where marketCap=? and sector=? order by growthpercent desc limit ?";
 		stocks = template.query(find, new RowMapper<NseStock>() {
 
-			@Override
+			@Override	
 			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
 				// TODO Auto-generated method stub
 				return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
