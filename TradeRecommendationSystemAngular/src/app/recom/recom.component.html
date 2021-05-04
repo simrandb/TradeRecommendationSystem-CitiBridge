@@ -5,4 +5,62 @@
 
 <br>
 <p style="font-size: 18px;" *ngIf="!loggedIn" class="login_Cond" >*To view Stock Recommendations and your Profile containing Saved Stocks, Please Log IN</p>
+<div *ngIf="loggedIn" class="content">
+    <h1>Recommended Stocks-</h1>
+    <br><br><br>
+    <form>  
+        <label for="mCap">Choose a Market Cap: </label>
+        <select (change)="changeCap($event)">
+            <option value="any" selected="selected">any</option>
+            <option value="Small Cap">Small Cap</option>
+          <option value="Mid Cap">Mid Cap</option>
+          <option value="Large Cap">Large Cap</option>
+        </select>
 
+        <label for="mService">Choose a Sector: </label>
+        <select (change)="changeSector($event)">
+            <option value="Financial Services" selected="selected">Financial Services</option>
+            <option value="Communication Services">Communication Services</option>
+          <option value="Basic Materials">Basic Materials</option>
+          <option value="Consumer Cyclical">Consumer Cyclical</option>
+          <option value="Industrials">Industrials</option>
+          <option value="Technology">Technology</option>
+          <option value="Real Estate">Real Estate</option>
+          <option value="Consumer Defensive">Consumer Defensive</option>
+          <option value="Utilities">Utilities</option>
+          <option value="Energy">Energy</option>
+          <option value="Healthcare">Healthcare</option>
+        </select>
+
+        <label for="mRow">Choose number of rows to see: </label>
+        <select (change)="changeTopQuan($event)">
+            <option value="15" selected="selected">15</option>
+            <option value="10">10</option>
+          <option value="5">5</option>
+        </select>
+
+        <label for="mGrowth">Order by: </label>
+        <select (change)="changeGrowth($event)">
+            <option value="growthpercent" selected="selected">Growth Percentage</option>
+            <option value="growth">Growth</option>
+        </select>
+    </form>  
+    <br>
+    
+    <table style="width:100%">
+        <tr>
+          <th>COMPANY</th>
+          <th>SECTOR</th>
+          <th>GROWTH</th>
+          <th>GROWTH PERCENTAGE</th>
+          <th>MARKET CAP</th>
+        </tr>
+        <tr *ngFor="let r of recomStocks">
+            <td>{{r.companySymbol}}</td>
+            <td>{{r.sector}}</td>
+            <td>{{r.growth}}</td>
+            <td>{{r.growthpercent}}</td>
+            <td>{{r.marketCap}}</td>
+        </tr>
+    </table>
+</div>

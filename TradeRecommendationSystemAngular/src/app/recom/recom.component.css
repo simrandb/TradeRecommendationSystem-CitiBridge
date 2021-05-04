@@ -18,6 +18,36 @@ a:hover{
     background-color:#66fcf1;
 }
 
-.login_Cond{
+label{
+  padding-left: 20px;
+  font-size: 20px;
+}
+option, select{
+  font-size: 18px;
+}
+
+table{
+  border: 2px solid #152833;
+  border-collapse: collapse;
+}
+
+th{
   color:#45a29e;
+  font-size: 22px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-right: 2px solid #152833;
+  border-left: 2px solid #152833;
+  border-bottom: 2px solid #152833;
+  border-collapse: collapse;
+}
+
+td{
+  text-align: center;
+  font-size: 18px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border-right: 2px solid #152833;
+  border-left: 2px solid #152833;
+  border-collapse: collapse;
 }

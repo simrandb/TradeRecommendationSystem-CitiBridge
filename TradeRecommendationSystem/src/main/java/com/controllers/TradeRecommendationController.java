@@ -37,6 +37,20 @@ public class TradeRecommendationController {
 	TradeRecommendationSystemDAO dao;
 	
 	
+	
+	
+	
+	
+	//Ready-to-use
+		//------------------------------------------------------------------------------------------------
+		//alter saved stock quantity (+ or -)
+		@RequestMapping(value = "/altersavedstockquantity", method = RequestMethod.GET )
+		public int alterStockquantity(int userid,String companySymbol, String plusminus) {
+			return dao.alterSavedStockQuantity(userid,companySymbol, plusminus);
+		}
+	
+	
+	
 	//Ready-to-use	
 	//------------------------------------------------------------------------------------------------
 	//to get saved stocks of an user
@@ -102,9 +116,9 @@ public class TradeRecommendationController {
 	//------------------------------------------------------------------------------------------------
 	//Fetching stock recommendations for all selected filters
 	@RequestMapping(value = "/stocksforselectedfilters")
-	public List<NseStock> stocksforfilters(String marketCapSelected, String sector , int topHowMany) {
+	public List<NseStock> stocksforfilters(String marketCapSelected, String sector , int topHowMany,String growthNumberOrGrowthpercent ) {
 
-		List <NseStock> stocks=dao.stocksForSelectedFilters(marketCapSelected, sector, topHowMany);
+		List <NseStock> stocks=dao.stocksForSelectedFilters(marketCapSelected, sector, topHowMany, growthNumberOrGrowthpercent);
 		return stocks;
 	}
 	
