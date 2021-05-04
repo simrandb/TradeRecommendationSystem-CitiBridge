@@ -648,7 +648,8 @@ public ArrayList<Long> Determinininggrowthdates()
 	}
 	
 	 public byte[] createcharts(String Stock)
-	{
+	{	
+		DataBufferByte data=null;
 		try{
 			ArrayList l1= new ArrayList<Double>();
 			String url="https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v3/get-historical-data?symbol="+Stock+".NS&region=IN";
@@ -701,13 +702,15 @@ public ArrayList<Long> Determinininggrowthdates()
 
 			// get DataBufferBytes from Raster
 			WritableRaster raster = bufferedImage .getRaster();
-			DataBufferByte data   = (DataBufferByte) raster.getDataBuffer();
+			data   = (DataBufferByte) raster.getDataBuffer();
 
-			return ( data.getData() );
 		}
 	catch (Exception e) {
 		e.printStackTrace();
 	}	
+		
+		return ( data.getData() );
+
 }
 
 

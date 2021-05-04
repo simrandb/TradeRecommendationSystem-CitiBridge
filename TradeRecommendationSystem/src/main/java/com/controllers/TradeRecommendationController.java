@@ -130,6 +130,8 @@ public class TradeRecommendationController {
 			      .getResourceAsStream("/com/controllers/TradeRecommendationController/LineChart.jpg");
 			    return IOUtils.toByteArray(in);
 			}
+	
+	
 	//Ready-to-use	
 	//------------------------------------------------------------------------------------------------
 	//!! Only to be used first one time! to insert all companySymbols and 
