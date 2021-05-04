@@ -23,10 +23,9 @@ public interface TradeRecommendationSystemDAO {
 	public ArrayList<Long> Determinininggrowthdates();
 	public long calculate(int day);
 	public long calculate1(int datee);
-	public void alterSavedStockQuantity(int userid,String companySymbol, String plusminus);
-
-	
-	
+	public byte[] createcharts(String Stock);
+	//public String x_rapidapi_key="fc5143996fmshdc74c92bd29fd1cp19b94ajsn3b5925dc08d2";
+	public int alterSavedStockQuantity(int userid,String companySymbol, String plusminus);
 	public String x_rapidapi_key="765daca2edmshf56f1d24e79490fp14fe62jsn571d193c9636";
 	public String x_rapidapi_host="apidojo-yahoo-finance-v1.p.rapidapi.com";
 	public String [] dummynsestocks={"RELIANCE",

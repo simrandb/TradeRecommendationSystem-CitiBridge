@@ -1,13 +1,15 @@
 package com.controllers;
-
-import java.awt.PageAttributes.MediaType;
+//import java.awt.PageAttributes.MediaType;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.apache.commons.io.IOUtils;
+//import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,8 +45,8 @@ public class TradeRecommendationController {
 		//------------------------------------------------------------------------------------------------
 		//alter saved stock quantity (+ or -)
 		@RequestMapping(value = "/altersavedstockquantity", method = RequestMethod.GET )
-		public void alterStockquantity(int userid,String companySymbol, String plusminus) {
-			dao.alterSavedStockQuantity(userid,companySymbol, plusminus);
+		public int alterStockquantity(int userid,String companySymbol, String plusminus) {
+			return dao.alterSavedStockQuantity(userid,companySymbol, plusminus);
 		}
 	
 	
@@ -120,7 +122,14 @@ public class TradeRecommendationController {
 		return stocks;
 	}
 	
-	
+	//Doing 
+	//Producing graphs as an image for a particular stock
+	@RequestMapping(value = "/get-image-with-media-type",produces = MediaType.IMAGE_JPEG_VALUE)
+			public byte[] getImageWithMediaType() throws IOException {
+			    InputStream in = getClass()
+			      .getResourceAsStream("/com/controllers/TradeRecommendationController/LineChart.jpg");
+			    return IOUtils.toByteArray(in);
+			}
 	//Ready-to-use	
 	//------------------------------------------------------------------------------------------------
 	//!! Only to be used first one time! to insert all companySymbols and 

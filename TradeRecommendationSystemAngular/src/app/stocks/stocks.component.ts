@@ -10,21 +10,35 @@ import { StocksService } from '../stocks.service';
 export class StocksComponent implements OnInit {
 
   stocks=[];
-  //userId : number;
   userName : string;
   loggedIn : Boolean = false
   
   constructor(private service: StocksService) { 
-   // this.userId = parseInt(localStorage.getItem('uid'))
 
    if(localStorage.getItem('username') != null)
       this.loggedIn=true;
   }
   private unSave(stkSym: string) {
     this.service.unSaveStk(stkSym).subscribe(data=>{})
-    window.location.pathname="./stockss"
+    location.reload();
   }
   
+  private changeQuan(stkSym: string, sign: string, curQuan: number) {
+    console.log(sign)
+    console.log(curQuan)
+    if (curQuan==1 && sign=='minus')
+    {
+      console.log("inside curquan==1")
+      console.log("stksym=minus")
+      this.service.unSaveStk(stkSym).subscribe(data=>{})
+      location.reload();
+    }
+    else{
+      this.service.changeQuantity(stkSym, sign).subscribe(data=>{})
+      location.reload();
+    }
+  }
+
   ngOnInit(): void {
     if(localStorage.getItem('username')==null || localStorage.getItem('username')=='null')
     {
