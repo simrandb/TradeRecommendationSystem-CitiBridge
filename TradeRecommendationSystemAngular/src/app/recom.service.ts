@@ -13,6 +13,14 @@ export class RecomService {
   public getRecom(cap: string, sector: string, topQuan: number, growthType: string): Observable<Recom[]>{
     console.log('http://localhost:8088/stocksforselectedfilters?marketCapSelected='+cap+'&sector='+sector+'&topHowMany='+topQuan+'&growthNumberOrGrowthpercent='+growthType)
     return this.httpService.get<Recom[]>('http://localhost:8088/stocksforselectedfilters?marketCapSelected='+cap+'&sector='+sector+'&topHowMany='+topQuan+'&growthNumberOrGrowthpercent='+growthType)
+    
+    //FOR TESTING, UNCOMMENT THIS RETURN N COMMENT PREVIOUS RETURN
+    //return this.httpService.get<Recom[]>('http://localhost:8088/stocksforselectedfilters?marketCapSelected='+cap+'&sector='+sector+'&topHowMany=2&growthNumberOrGrowthpercent='+growthType)
+  
   }
 
+  public saveStk(stkSYm: string){
+
+    
+  }
 }

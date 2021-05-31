@@ -24,10 +24,10 @@ public interface TradeRecommendationSystemDAO {
 	public long calculate(int day);
 	public long calculate1(int datee);
 	public int alterSavedStockQuantity(int userid,String companySymbol, String plusminus);
-
+	public double getMarketPrice(String companySymbol);
 	
 	
-	public String x_rapidapi_key="765daca2edmshf56f1d24e79490fp14fe62jsn571d193c9636";
+	public String x_rapidapi_key="d338e48424msh174d4d7be476253p194437jsna64e65136fb9";
 	public String x_rapidapi_host="apidojo-yahoo-finance-v1.p.rapidapi.com";
 	public String [] dummynsestocks={"RELIANCE",
 			

@@ -5,4 +5,5 @@ export class Recom{
     growthpercent : number;     
     dateModified : Date;
     marketCap : string;
+    marketPrice : number;
 }

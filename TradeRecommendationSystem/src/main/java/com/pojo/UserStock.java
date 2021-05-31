@@ -4,11 +4,20 @@ public class UserStock {
 	
 	private String savedStockSymbol;
 	private int quantity;
+	private double mktPrice;
 	
 	public UserStock(String savedStockSymbol, int quantity) {
 		super();
 		this.savedStockSymbol = savedStockSymbol;
 		this.quantity = quantity;
+	}
+
+
+	public UserStock(String savedStockSymbol, int quantity, double mktPrice) {
+		super();
+		this.savedStockSymbol = savedStockSymbol;
+		this.quantity = quantity;
+		this.mktPrice = mktPrice;
 	}
 
 
@@ -20,8 +29,15 @@ public class UserStock {
 		this.quantity = quantity;
 	}
 	
+	public double getMktPrice() {
+		return mktPrice;
+	}
 
-	
+
+	public void setMktPrice(double mktPrice) {
+		this.mktPrice = mktPrice;
+	}
+
 
 	public String getSavedStockSymbol() {
 		return savedStockSymbol;
@@ -35,7 +51,8 @@ public class UserStock {
 
 	@Override
 	public String toString() {
-		return "UserStock [savedStockSymbol=" + savedStockSymbol + ", quantity=" + quantity + "]";
+		return "UserStock [savedStockSymbol=" + savedStockSymbol + ", quantity=" + quantity + ", mktPrice=" + mktPrice
+				+ "]";
 	}
 
 

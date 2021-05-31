@@ -34,9 +34,9 @@
 
         <label for="mRow">Choose number of rows to see: </label>
         <select (change)="changeTopQuan($event)">
-            <option value="15" selected="selected">15</option>
+            <option value="5" selected="selected">5</option>
             <option value="10">10</option>
-          <option value="5">5</option>
+          <option value="15">15</option>
         </select>
 
         <label for="mGrowth">Order by: </label>
@@ -54,6 +54,8 @@
           <th>GROWTH</th>
           <th>GROWTH PERCENTAGE</th>
           <th>MARKET CAP</th>
+          <th>MARKET PRICE</th>
+          <th>SAVE</th>
         </tr>
         <tr *ngFor="let r of recomStocks">
             <td>{{r.companySymbol}}</td>
@@ -61,6 +63,8 @@
             <td>{{r.growth}}</td>
             <td>{{r.growthpercent}}</td>
             <td>{{r.marketCap}}</td>
+            <td>{{r.marketPrice}}</td>
+            <td><button type="button" (click)="saveStock(r.companySymbol)">ADD</button></td>
         </tr>
     </table>
 </div>

@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     {
       //Go to dashboard
       console.log(" inside if")
-      //alert('LOGGED IN SUCCESSFULLY!')
+      alert('LOGGED IN SUCCESSFULLY! Refreshing db')
       localStorage.setItem('username', username.toString())
       console.log(localStorage.getItem('username'))
       window.location.pathname='./profile'

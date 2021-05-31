@@ -40,4 +40,10 @@ export class StocksService {
     console.log(this.url)
     return this.httpService.get(this.url)
   }
+/*
+  public getMarketPrice(stkSym:string) :Observable<any>{
+    console.log("inside getMarketPrice")
+    return this.httpService.get('http://localhost:8088/marketPrice?stockSymbol='+stkSym)
+
+  }*/
 }

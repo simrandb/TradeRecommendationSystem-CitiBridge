@@ -16,8 +16,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.net.HttpURLConnection;
@@ -25,7 +27,10 @@ import java.net.HttpURLConnection;
 import org.json.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.BufferedReader;
@@ -35,7 +40,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URLConnection;
 
-
+//import com.controllers.DecimalFormat;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -58,6 +63,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 
 	RestTemplate restTemplate;
 	
+	DecimalFormat df=new DecimalFormat("#.##");
 	
 	//Done
 	public int alterSavedStockQuantity(int userid,String companySymbol, String plusminus)
@@ -91,11 +97,13 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 
 		String FINDSTOCKS = "select * from stocks where customerid=?";
 		List<UserStock> stocks = template.query(FINDSTOCKS, new RowMapper<UserStock>() {
-
+			
+			
 			@Override
 			public UserStock mapRow(ResultSet set, int arg1) throws SQLException {
 				// TODO Auto-generated method stub
-				return new UserStock(set.getString(3), set.getInt(4));
+				double mktPrice = getMarketPrice(set.getString(3));
+				return new UserStock(set.getString(3), set.getInt(4), Double.parseDouble(df.format(mktPrice)));
 			}
 
 		}, userId);
@@ -147,8 +155,11 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 						@Override
 						public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
 							// TODO Auto-generated method stub
-							return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
-						}
+							double mktPrice= getMarketPrice(set.getString(1));
+							
+							//returning output
+							return new NseStock(set.getString(1),set.getString(2),Double.parseDouble(df.format(set.getDouble(3))), Double.parseDouble(df.format(set.getDouble(4))), set.getString(6), Double.parseDouble(df.format(mktPrice)));
+							}
 
 					},topHowMany);
 				}
@@ -160,8 +171,11 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 					@Override
 					public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
 						// TODO Auto-generated method stub
-						return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
-					}
+						double mktPrice= getMarketPrice(set.getString(1));
+						
+						//returning output
+						return new NseStock(set.getString(1),set.getString(2),Double.parseDouble(df.format(set.getDouble(3))), Double.parseDouble(df.format(set.getDouble(4))), set.getString(6), Double.parseDouble(df.format(mktPrice)));
+						}
 
 				}, topHowMany);
 				}
@@ -176,8 +190,11 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 					@Override
 					public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
 						// TODO Auto-generated method stub
-						return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
-					}
+						double mktPrice= getMarketPrice(set.getString(1));
+						
+						//returning output
+						return new NseStock(set.getString(1),set.getString(2),Double.parseDouble(df.format(set.getDouble(3))), Double.parseDouble(df.format(set.getDouble(4))), set.getString(6), Double.parseDouble(df.format(mktPrice)));
+						}
 
 				}, marketCapSelected,topHowMany);
 			}
@@ -189,7 +206,10 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 				@Override
 				public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
 					// TODO Auto-generated method stub
-					return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
+					double mktPrice= getMarketPrice(set.getString(1));
+					
+					//returning output
+					return new NseStock(set.getString(1),set.getString(2),Double.parseDouble(df.format(set.getDouble(3))), Double.parseDouble(df.format(set.getDouble(4))), set.getString(6), Double.parseDouble(df.format(mktPrice)));
 				}
 
 			}, marketCapSelected,topHowMany);
@@ -208,7 +228,10 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 					@Override
 					public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
 						// TODO Auto-generated method stub
-						return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
+						double mktPrice= getMarketPrice(set.getString(1));
+						
+						//returning output
+						return new NseStock(set.getString(1),set.getString(2),Double.parseDouble(df.format(set.getDouble(3))), Double.parseDouble(df.format(set.getDouble(4))), set.getString(6), Double.parseDouble(df.format(mktPrice)));
 					}
 
 				}, sector,topHowMany);
@@ -221,8 +244,11 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 				@Override
 				public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
 					// TODO Auto-generated method stub
-					return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
-				}
+					double mktPrice= getMarketPrice(set.getString(1));
+					
+					//returning output
+					return new NseStock(set.getString(1),set.getString(2),Double.parseDouble(df.format(set.getDouble(3))), Double.parseDouble(df.format(set.getDouble(4))), set.getString(6), Double.parseDouble(df.format(mktPrice)));
+					}
 
 			}, sector,topHowMany);
 			}
@@ -237,8 +263,11 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 				@Override
 				public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
 					// TODO Auto-generated method stub
-					return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
-				}
+					double mktPrice= getMarketPrice(set.getString(1));
+					
+					//returning output
+					return new NseStock(set.getString(1),set.getString(2),Double.parseDouble(df.format(set.getDouble(3))), Double.parseDouble(df.format(set.getDouble(4))), set.getString(6), Double.parseDouble(df.format(mktPrice)));
+					}
 
 			}, marketCapSelected,sector,topHowMany);
 		}
@@ -250,8 +279,11 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			@Override
 			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
 				// TODO Auto-generated method stub
-				return new NseStock(set.getString(1),set.getString(2),set.getDouble(3),set.getDouble(4),set.getString(6));
-			}
+				double mktPrice= getMarketPrice(set.getString(1));
+				
+				//returning output
+				return new NseStock(set.getString(1),set.getString(2),Double.parseDouble(df.format(set.getDouble(3))), Double.parseDouble(df.format(set.getDouble(4))), set.getString(6), Double.parseDouble(df.format(mktPrice)));
+				}
 
 		}, marketCapSelected,sector,topHowMany);
 		}
@@ -260,6 +292,48 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		return stocks;
 	}
 	
+	
+	public double getMarketPrice(String companySymbol)
+	{
+
+		//for calling api for market price update
+		double regularMarketPrice=0.0d;
+		try {
+			String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol="+companySymbol+".NS"+"&region=IN";
+	        URL obj = new URL(url);
+	        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+	        con.setRequestMethod("GET");
+	        con.setRequestProperty("x-rapidapi-key",x_rapidapi_key );
+	        con.setRequestProperty("x_rapidapi_host",x_rapidapi_host );
+	        int responseCode = con.getResponseCode();
+	        System.out.println("\nSending 'GET' request to URL : " + url);
+	        System.out.println("Response Code : " + responseCode);
+	        BufferedReader in = new BufferedReader(
+	                new InputStreamReader(con.getInputStream()));
+	        String inputLine;
+	        StringBuffer response = new StringBuffer();
+	        JSONObject myResponse=null;
+	        
+	        while ((inputLine = in.readLine()) != null) {
+	        	response.append(inputLine);
+	             //print in String
+	             myResponse = new JSONObject(response.toString());
+	     
+	             JSONObject getPrice = myResponse.getJSONObject("price");
+	             JSONObject levelPrice = getPrice.getJSONObject("regularMarketPrice");
+			     regularMarketPrice=(double)levelPrice.getDouble("raw");
+	             System.out.println("Market price for "+companySymbol+" : "+regularMarketPrice);
+	        }
+	        
+	        
+		}
+		catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		
+		//returning output
+		return regularMarketPrice;
+	}
 	
 	//Done
 	public void updateDatabaseForToday()
@@ -271,12 +345,16 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			return;
 		}
 		Object raw=null;
-		String  insertRecord= "update nse_stocks set marketCap=?, growth=?, growthpercent=?, dateModified=(select curdate()) where companySymbol=?";
+		String  insertRecord= "update nse_stocks set marketCap=?, growth=?, growthpercent=?, marketPrice=?, dateModified=(select curdate()) where companySymbol=?";
 		NseStock nsestock=new NseStock();
 		String marketCapString="";
 		ArrayList<Long> timestamps=Determinininggrowthdates();
+		
+		//String checkModDate="select dateModified from nse_stocks where companySymbol= :cmpSym";
 		for(String stock : dummynsestocks)
 		{
+			
+			
 			 try {
 				 
 				 	//for market cap
@@ -287,13 +365,15 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			        con.setRequestProperty("x-rapidapi-key",x_rapidapi_key );
 			        con.setRequestProperty("x_rapidapi_host",x_rapidapi_host );
 			        int responseCode = con.getResponseCode();
-			        //System.out.println("\nSending 'GET' request to URL : " + url);
-			        //System.out.println("Response Code : " + responseCode);
+			        System.out.println("\nSending 'GET' request to URL : " + url);
+			        System.out.println("Response Code : " + responseCode);
 			        BufferedReader in = new BufferedReader(
 			                new InputStreamReader(con.getInputStream()));
 			        String inputLine;
 			        StringBuffer response = new StringBuffer();
 			        JSONObject myResponse=null, level=null;
+			        double regularMarketPrice=0.0d;
+			        
 			        while ((inputLine = in.readLine()) != null) {
 			        	response.append(inputLine);
 			             //print in String
@@ -302,6 +382,12 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			        
 			             JSONObject getSth = myResponse.getJSONObject("price");
 			             level = getSth.getJSONObject("marketCap");
+			             
+
+			             
+			             JSONObject getPrice = myResponse.getJSONObject("price");
+			             JSONObject levelPrice = getPrice.getJSONObject("regularMarketPrice");
+					     regularMarketPrice=(double)levelPrice.getDouble("raw");
 			             
 			             
 			             
@@ -370,22 +456,17 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			           }
 			             
 			        
-					template.update(insertRecord,marketCapString,java.lang.Math.abs(priceToday-pricePast) ,growthPercent,stock);
+					template.update(insertRecord,marketCapString,java.lang.Math.abs(priceToday-pricePast), growthPercent, regularMarketPrice, stock);
 
 			             
 			  }
 
-			        
-			  
+			       
 
 			     catch (Exception e) {
 			        e.printStackTrace();
 			    }
-			  
-			//nsestock.setMarketCap();
-			//nsestock.setGrowth();
-			//nsestock.setGrowthpercent();
-	
+			
 		}
 
 	}
@@ -423,6 +504,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			             
 			             JSONObject getSth = myResponse.getJSONObject("summaryProfile");
 			             Object level = getSth.get("sector");
+			             
 			             template.update(insertRecord,stock, level);
 			             
 			  }
