@@ -17,6 +17,8 @@ public interface TradeRecommendationSystemDAO {
 	public void updateDatabaseForToday();
 	public void insertCompanySymbolsAndSector();
 	public int unsaveAStock(int userid,String stockSymbol);
+	public int stockSavedOrNot(int userid,String stockSymbol);
+	public int saveAStock(int userid,String stockSymbol);
 	public int checkDateModifiedOfDatabase();
 	public boolean checkUsernameExistInDatabase(String username);
 	public void changeUserLoggedStatus(int loggedStatus,String username);

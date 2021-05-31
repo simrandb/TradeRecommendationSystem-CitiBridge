@@ -12,6 +12,12 @@ public class UserStock {
 	}
 
 
+	public UserStock(String savedStockSymbol) {
+		super();
+		this.savedStockSymbol = savedStockSymbol;
+	}
+
+
 	public int getQuantity() {
 		return quantity;
 	}

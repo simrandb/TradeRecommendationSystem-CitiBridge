@@ -37,8 +37,23 @@ public class TradeRecommendationController {
 	TradeRecommendationSystemDAO dao;
 	
 	
+	//Ready-to-use	
+	//------------------------------------------------------------------------------------------------
+		@RequestMapping(value = "/savestock")
+		public int saveStock(int customerid, String stocksymbol) {
+
+			return dao.saveAStock(customerid, stocksymbol);
+			
+		}
 	
-	
+	//Ready-to-use	
+	//------------------------------------------------------------------------------------------------
+				@RequestMapping(value = "/stocksavedornot")
+				public int stockIsSavedOrNot(int customerid, String stocksymbol) {
+
+					return dao.stockSavedOrNot(customerid, stocksymbol);
+					
+				}
 	
 	
 	//Ready-to-use
@@ -125,7 +140,9 @@ public class TradeRecommendationController {
 	//Doing 
 	//Producing graphs as an image for a particular stock
 	@RequestMapping(value = "/get-image-with-media-type",produces = MediaType.IMAGE_JPEG_VALUE)
-			public byte[] getImageWithMediaType() throws IOException {
+			public byte[] getImageWithMediaType() throws IOException { 
+		
+			
 			    InputStream in = getClass()
 			      .getResourceAsStream("/com/controllers/TradeRecommendationController/LineChart.jpg");
 			    return IOUtils.toByteArray(in);
@@ -141,6 +158,10 @@ public class TradeRecommendationController {
 		dao.insertCompanySymbolsAndSector();
 		
 	}
+	
+	
+	
+	
 	
 	
 	//Ready-to-use	

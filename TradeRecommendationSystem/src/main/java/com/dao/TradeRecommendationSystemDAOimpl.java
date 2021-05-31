@@ -6,7 +6,7 @@ import java.math.BigInteger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -73,7 +73,41 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 
 	RestTemplate restTemplate;
 	
-	
+	//Done
+		public int saveAStock(int userid,String stockSymbol)
+		{
+
+			String  insertRecord= "insert into stocks(customerid,savedstocksymbol,quantity) values (?,?,1)";
+			return template.update(insertRecord,userid, stockSymbol);
+			
+		}
+
+		//Done
+			public int stockSavedOrNot(int userid,String stockSymbol)
+			{
+				UserStock  stock=null;
+				String FINDSTOCKS = "select * from stocks where customerid=? and savedstocksymbol=?";
+				try {
+				stock = template.queryForObject(FINDSTOCKS, new RowMapper<UserStock>() {
+
+					@Override
+					public UserStock mapRow(ResultSet set, int arg1) throws SQLException {
+						// TODO Auto-generated method stub
+						return new UserStock(set.getString(3));
+					}
+
+				},userid, stockSymbol);
+				}
+				catch(EmptyResultDataAccessException e)
+				{
+					return 0;
+				}
+				if (stock.getSavedStockSymbol()!=null) return 1;
+				else return 0;
+			}
+
+				
+				
 	//Done
 	public int alterSavedStockQuantity(int userid,String companySymbol, String plusminus)
 	{
