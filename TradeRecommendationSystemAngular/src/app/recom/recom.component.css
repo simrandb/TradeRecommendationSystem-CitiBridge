@@ -51,3 +51,22 @@ td{
   border-left: 2px solid #152833;
   border-collapse: collapse;
 }
+
+.content button{
+  padding: 2px 5px;
+  color:#0b0c10;
+  background-color: #45a29e;
+  border-radius: 2px;
+  border-width: 2px;
+  font-size: medium;
+  font-family: serif;
+  text-align: center;
+  margin-right: 2px;
+  margin-left: 2px;
+
+}
+
+.content button:hover{
+  cursor: pointer;
+  background-color: #66fcf1;
+}

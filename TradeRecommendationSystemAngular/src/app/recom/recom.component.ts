@@ -10,7 +10,7 @@ export class RecomComponent implements OnInit {
   loggedIn : Boolean = false
   sCap: string = 'any';
   sSector: string = 'Financial Services';
-  sTopQuan: number = 15;
+  sTopQuan: number = 5;
   sGrowth: string = 'growthpercent' ;
   recomStocks=[];
 
@@ -51,6 +51,12 @@ export class RecomComponent implements OnInit {
     console.log(this.sGrowth);
     this.service.getRecom(this.sCap, this.sSector, this.sTopQuan, this.sGrowth).subscribe(response=>{this.recomStocks=response})
 
+  }
+
+  private saveStock(stkSym: string) {
+    this.service.saveStk(stkSym);
+    alert('Stock Saved in Profile!');
+    //location.reload();
   }
 
   ngOnInit(): void {

@@ -56,6 +56,7 @@ public class TradeRecommendationController {
 				}
 	
 	
+
 	//Ready-to-use
 		//------------------------------------------------------------------------------------------------
 		//alter saved stock quantity (+ or -)
@@ -174,6 +175,15 @@ public class TradeRecommendationController {
 		
 
 	}
+	
+	/*
+	//to get marketPrice
+	@RequestMapping(value = "/marketPrice", method = RequestMethod.GET)
+	public double marketPrice(String stockSymbol) {
+		
+		return dao.getMarketPrice(stockSymbol);
+	}
+	*/
 	
 	
 	/*

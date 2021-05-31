@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+//import { runInThisContext } from 'node:vm';
 import { Observable } from 'rxjs';
+import { ApiService } from '../api.service';
 import { StocksService } from '../stocks.service';
 
 @Component({
@@ -12,12 +14,14 @@ export class StocksComponent implements OnInit {
   stocks=[];
   userName : string;
   loggedIn : Boolean = false
-  
-  constructor(private service: StocksService) { 
+  mktPrice: number
+
+  constructor(private service: StocksService, private apiService: ApiService) { 
 
    if(localStorage.getItem('username') != null)
       this.loggedIn=true;
   }
+
   private unSave(stkSym: string) {
     this.service.unSaveStk(stkSym).subscribe(data=>{})
     location.reload();
@@ -39,6 +43,7 @@ export class StocksComponent implements OnInit {
     }
   }
 
+   
   ngOnInit(): void {
     if(localStorage.getItem('username')==null || localStorage.getItem('username')=='null')
     {
