@@ -1,3 +1,5 @@
+
+  
 package com.dao;
 
 import java.math.BigInteger;
@@ -22,8 +24,16 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
 import java.net.HttpURLConnection;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtils;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.json.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -33,7 +43,12 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -276,7 +291,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		String find = "select * from nse_stocks where marketCap=? and sector=? order by growthpercent desc limit ?";
 		stocks = template.query(find, new RowMapper<NseStock>() {
 
-			@Override
+			@Override	
 			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
 				// TODO Auto-generated method stub
 				double mktPrice= getMarketPrice(set.getString(1));
@@ -714,6 +729,72 @@ public ArrayList<Long> Determinininggrowthdates()
 		return ts;
 	}
 	
-	 
+	 public byte[] createcharts(String Stock)
+	{	
+		DataBufferByte data=null;
+		try{
+			ArrayList l1= new ArrayList<Double>();
+			String url="https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v3/get-historical-data?symbol="+Stock+".NS&region=IN";
+			URL obj = new URL(url);
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			con.setRequestMethod("GET");
+			con.setRequestProperty("x-rapidapi-key",x_rapidapi_key );
+			con.setRequestProperty("x_rapidapi_host",x_rapidapi_host );
+			int responseCode = con.getResponseCode();
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+			JSONObject myResponse=null, level=null;
+			JSONArray getSth=null;
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+				myResponse = new JSONObject(response.toString());	
+				getSth = myResponse.getJSONArray("prices");
+			}
+			for (int i = 0;i < 7; i++)
+			{
+				JSONObject object = getSth.getJSONObject(i);
+				Double highprice = object.getDouble("high");
+				l1.add(highprice);
+			}
+			DefaultCategoryDataset line_chart_dataset = new DefaultCategoryDataset();
+			line_chart_dataset.addValue((Number) l1.get(0),"WEEKDAYS" ,"Day1");
+			line_chart_dataset.addValue((Number)l1.get(1), "WEEKDAYS" ,"Day2" );
+			line_chart_dataset.addValue((Number) l1.get(2),"WEEKDAYS" , "Day3" );
+			line_chart_dataset.addValue((Number) l1.get(3) , "WEEKDAYS" ,"Day4" );
+			line_chart_dataset.addValue((Number) l1.get(4), "WEEKDAYS" , "Day5" ); 
+			line_chart_dataset.addValue((Number) l1.get(5), "WEEKDAYS", "Day6" );
+			line_chart_dataset.addValue( (Number) l1.get(6), "WEEKDAYS" , "Day7" );
+
+			JFreeChart lineChartObject = ChartFactory.createLineChart(
+					"Stock performanceof week","7 days",
+					"High Price",
+					line_chart_dataset,PlotOrientation.VERTICAL,
+					true,true,false);
+
+			int width = 680;    /* Width of the image */
+			int height = 480;   /* Height of the image */ 
+			File lineChart = new File( "LineChart.jpeg" ); 
+			ChartUtils.saveChartAsJPEG(lineChart ,lineChartObject,width ,height);
+			//String imgPath = lineChart.getPath();
+			File imgPath = new File("LineChart.jpeg");
+			//File imgpath = new File(imgPath);
+			BufferedImage bufferedImage = ImageIO.read(imgPath);
+
+			// get DataBufferBytes from Raster
+			WritableRaster raster = bufferedImage .getRaster();
+			data   = (DataBufferByte) raster.getDataBuffer();
+
+		}
+	catch (Exception e) {
+		e.printStackTrace();
+	}	
+		
+		return ( data.getData() );
+
+}
+
+
 
 }
