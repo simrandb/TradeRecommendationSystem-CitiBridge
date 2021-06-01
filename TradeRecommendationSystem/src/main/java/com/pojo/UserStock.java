@@ -13,17 +13,16 @@ public class UserStock {
 	}
 
 
-<<<<<<< HEAD
+
 	public UserStock(String savedStockSymbol) {
 		super();
 		this.savedStockSymbol = savedStockSymbol;
-=======
+	}
 	public UserStock(String savedStockSymbol, int quantity, double mktPrice) {
 		super();
 		this.savedStockSymbol = savedStockSymbol;
 		this.quantity = quantity;
 		this.mktPrice = mktPrice;
->>>>>>> 20c9f18f6f7f8a8d213e9e1f20ad8d25c6f4dd1d
 	}
 
 

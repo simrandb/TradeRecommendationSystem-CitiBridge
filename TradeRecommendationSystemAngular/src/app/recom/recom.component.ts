@@ -13,6 +13,7 @@ export class RecomComponent implements OnInit {
   sTopQuan: number = 5;
   sGrowth: string = 'growthpercent' ;
   recomStocks=[];
+  savedStk: boolean;
 
   constructor(private service: RecomService) { 
     if(localStorage.getItem('username') != null)
@@ -53,15 +54,62 @@ export class RecomComponent implements OnInit {
 
   }
 
-  private saveStock(stkSym: string) {
-    this.service.saveStk(stkSym);
-    alert('Stock Saved in Profile!');
-    //location.reload();
+  saveStock(stkSym: string) {
+    this.service.chkStkSave(stkSym).subscribe(response=>{this.stockExists(response, stkSym)})
+    console.log(" in recom comp, save stock, this.savedSTk= "+this.savedStk)
   }
+
+  stockExists(res: boolean,stkSym:string){
+    console.log("in recom comp, stockExists")
+    if(res==true)
+    {
+      //this.savedStk = true
+      //this.recomStocks[i].isDisabled = true;
+      alert('STOCK PREVIOUSLY SAVED')
+    }
+    else 
+    {
+      //this.recomStocks[i].isDisabled = false;
+      //this.savedStk = false
+      this.service.saveStk(stkSym).subscribe();
+      alert('Stock Saved in Profile!');
+
+    }
+    return
+  }
+
+  /*
+  chkStkSave(stkSym: string){
+    console.log("in recom comp, chkSTkSave")
+    //this.service.chkStkSave(stkSym).subscribe(response=>{this.stockExists(response)})
+    return this.service.chkStkSave(stkSym).subscribe(response=>{localStorage.setItem('savedStock', String(response))})
+    
+  }
+
+  chkStorageVal(stkSym: string){
+    console.log('in chk Storage 1')
+    this.chkStkSave(stkSym)
+    console.log('in chk Storage 2')
+    if(localStorage.getItem('savedStock')=='true')
+    {//show button
+      console.log('in chk Storage 2 true')
+      localStorage.removeItem('savedStock')
+      return false;
+    }
+    else
+    {//hide button
+      console.log('in chk Storage 2 false')
+      localStorage.removeItem('savedStock')
+      return true;
+    }
+  }
+*/
 
   ngOnInit(): void {
 
     this.service.getRecom(this.sCap, this.sSector, this.sTopQuan, this.sGrowth).subscribe(response=>{this.recomStocks=response})
+
+  
   }
 
 }

@@ -6,4 +6,6 @@ export class Recom{
     dateModified : Date;
     marketCap : string;
     marketPrice : number;
+    //stkSavedInDb : boolean;
+    //isDisabled: boolean;
 }

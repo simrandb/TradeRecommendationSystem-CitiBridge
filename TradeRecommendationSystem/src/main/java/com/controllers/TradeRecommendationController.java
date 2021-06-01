@@ -40,20 +40,27 @@ public class TradeRecommendationController {
 	//Ready-to-use	
 	//------------------------------------------------------------------------------------------------
 		@RequestMapping(value = "/savestock")
-		public int saveStock(int customerid, String stocksymbol) {
-
-			return dao.saveAStock(customerid, stocksymbol);
-			
+		public boolean saveStock(int customerid, String stocksymbol) {
+			System.out.println("in save stock");
+			System.out.println("customerid= "+customerid);
+			System.out.println("stksym= "+stocksymbol);
+			int res = dao.saveAStock(customerid, stocksymbol);
+			return true;
 		}
 	
 	//Ready-to-use	
 	//------------------------------------------------------------------------------------------------
-				@RequestMapping(value = "/stocksavedornot")
-				public int stockIsSavedOrNot(int customerid, String stocksymbol) {
+		@RequestMapping(value = "/stocksavedornot")
+		public boolean stockIsSavedOrNot(int customerid, String stocksymbol) {
+			int res = dao.stockSavedOrNot(customerid, stocksymbol);
+			System.out.println("in saved stocks or not res=" +res);
 
-					return dao.stockSavedOrNot(customerid, stocksymbol);
-					
-				}
+			if(res==1)
+				return true;
+			else
+				return false;
+				
+		}
 	
 	
 
@@ -63,6 +70,7 @@ public class TradeRecommendationController {
 		@RequestMapping(value = "/altersavedstockquantity", method = RequestMethod.GET )
 		public int alterStockquantity(int userid,String companySymbol, String plusminus) {
 			return dao.alterSavedStockQuantity(userid,companySymbol, plusminus);
+			
 		}
 	
 	

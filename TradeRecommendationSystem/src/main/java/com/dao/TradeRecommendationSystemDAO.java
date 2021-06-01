@@ -31,7 +31,7 @@ public interface TradeRecommendationSystemDAO {
 	public double getMarketPrice(String companySymbol);
 	
 	
-	public String x_rapidapi_key="d338e48424msh174d4d7be476253p194437jsna64e65136fb9";
+	public String x_rapidapi_key="96287fd32fmsh462943b1c670d91p116d22jsn54211cf6fa70";
 	public String x_rapidapi_host="apidojo-yahoo-finance-v1.p.rapidapi.com";
 	public String [] dummynsestocks={"RELIANCE",
 			

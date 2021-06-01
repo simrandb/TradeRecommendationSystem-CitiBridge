@@ -78,6 +78,8 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 
 	RestTemplate restTemplate;
 	
+	DecimalFormat df=new DecimalFormat("#.##");		
+	
 	//Done
 		public int saveAStock(int userid,String stockSymbol)
 		{
@@ -110,10 +112,8 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 				if (stock.getSavedStockSymbol()!=null) return 1;
 				else return 0;
 			}
-
-				
-				
-	DecimalFormat df=new DecimalFormat("#.##");
+	
+	
 	
 	//Done
 	public int alterSavedStockQuantity(int userid,String companySymbol, String plusminus)
