@@ -92,7 +92,7 @@ public class TradeRecommendationController {
 	public boolean verifyUser(String username, String password) {
 		
 		boolean userVerified=dao.verifyUser(username, password);
-		dao.updateDatabaseForToday();
+		//dao.updateDatabaseForToday();
 		return userVerified;
 		
 		
@@ -183,6 +183,28 @@ public class TradeRecommendationController {
 		
 
 	}
+	
+	//Ready-to-use	
+	//------------------------------------------------------------------------------------------------
+	//
+	@RequestMapping(value = "/topgainers", method=RequestMethod.GET)
+	public List<NseStock> topGainers() {
+
+		return dao.topGainers();
+		
+
+	}	
+	
+	//Ready-to-use	
+		//------------------------------------------------------------------------------------------------
+		//
+		@RequestMapping(value = "/toplosers", method=RequestMethod.GET)
+		public List<NseStock> topLosers() {
+
+			return dao.topLosers();
+			
+
+		}	
 	
 	/*
 	//to get marketPrice

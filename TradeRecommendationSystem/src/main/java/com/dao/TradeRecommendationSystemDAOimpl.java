@@ -29,12 +29,7 @@ import javax.imageio.ImageIO;
 
 import java.net.HttpURLConnection;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartUtils;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.json.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
@@ -66,6 +61,8 @@ import java.net.URL;
 
 import com.pojo.UserStock;
 import org.springframework.web.client.RestTemplate;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 @Repository
@@ -764,6 +761,37 @@ public ArrayList<Long> Determinininggrowthdates()
 		return ts;
 	}
 	
+	@Override
+	public List<NseStock> topGainers() {
+		List<NseStock>  stocks=null;
+		
+		String find = "select * from nse_stocks order by growthpercent desc limit 3";
+		stocks = template.query(find, new RowMapper<NseStock>() {
+
+			@Override
+			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {				
+				return new NseStock(set.getString(1),set.getDouble(3),set.getDouble(4));
+				}
+		});
+		return stocks;
+	}
+
+	@Override
+	public List<NseStock> topLosers() {
+		List<NseStock>  stocks=null;
+		
+		String find = "select * from nse_stocks order by growthpercent asc limit 3";
+		stocks = template.query(find, new RowMapper<NseStock>() {
+
+			@Override
+			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {				
+				return new NseStock(set.getString(1),set.getDouble(3),set.getDouble(4));
+				}
+		});
+		return stocks;
+	}
+	
+	/*
 	 public byte[] createcharts(String Stock)
 	{	
 		DataBufferByte data=null;
@@ -808,8 +836,8 @@ public ArrayList<Long> Determinininggrowthdates()
 					line_chart_dataset,PlotOrientation.VERTICAL,
 					true,true,false);
 
-			int width = 680;    /* Width of the image */
-			int height = 480;   /* Height of the image */ 
+			int width = 680;    
+			int height = 480;   
 			File lineChart = new File( "LineChart.jpeg" ); 
 			ChartUtils.saveChartAsJPEG(lineChart ,lineChartObject,width ,height);
 			//String imgPath = lineChart.getPath();
@@ -829,7 +857,9 @@ public ArrayList<Long> Determinininggrowthdates()
 		return ( data.getData() );
 
 }
+*/
 
+	
 
 
 }
