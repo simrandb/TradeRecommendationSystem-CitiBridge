@@ -32,11 +32,17 @@ public class NseStock {
 	}
 	
 	
+	public NseStock(String companySymbol, double growth, double growthpercent) {
+		super();
+		this.companySymbol = companySymbol;
+		this.growth = growth;
+		this.growthpercent = growthpercent;
+	}
 	
 	public NseStock(String companySymbol, String sector, double growth, double growthpercent, String marketCap, double marketPrice) {
 		super();
 		this.companySymbol = companySymbol;
-		Sector = sector;
+		this.Sector = sector;
 		this.growth = growth;
 		this.growthpercent = growthpercent;
 		this.marketCap = marketCap;
@@ -45,14 +51,14 @@ public class NseStock {
 
 	public NseStock(String sector, double growth, double growthpercent, String marketCap) {
 		super();
-		Sector = sector;
+		this.Sector = sector;
 		this.growth = growth;
 		this.growthpercent = growthpercent;
 		this.marketCap = marketCap;
 	}
 	public NseStock(String companySymbol,String sector, double growth, double growthpercent,String marketCap) {
 		super();
-		Sector = sector;
+		this.Sector = sector;
 		this.companySymbol = companySymbol;
 		this.growth = growth;
 		this.growthpercent = growthpercent;
