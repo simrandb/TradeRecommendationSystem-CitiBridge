@@ -7,8 +7,12 @@
 
 header{
     background-color: #1f2833;
-    height: 67px;
-    text-align : right;
+    /*background: url(src\gemstone.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    */
+    height: 70px;
+    text-align : center;
     width: 100%;
     /*position: -webkit-sticky; /* Safari 
     position: sticky;
@@ -21,30 +25,44 @@ header{
     padding: 10px;
 }
 
+img{
+    float:center;
+    padding: 1px 20px;
+}
+
 button {
 	color: #66fcf1;
     outline-color: #1f2833;
     background-color: #1f2833;
-    padding : 20px 10px;
 	text-align: center;
-	font-size: 20px;
-	width: 15%;
+	width: 20%;
     border-top: 2px solid #1f2833;
     border-bottom: 2px solid #1f2833;
-    
+    /*background: url(src\gemstone.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    */
 }
 button.b2{
     float:left;
     border-right: 2px solid #45a29e;
     border-left: 2px solid #1f2833;
+    width:15%;
+
 }
 
 button.b1{
     float: right;
+    font-size: 22px;
+    padding : 20px 10px;
     border-left: 2px solid #45a29e;
     border-right: 2px solid #1f2833;
 }
 button:hover{
     background-color: #0b0c10;
     cursor: pointer;
+    /*background: url(src\gemstonedark.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    */
 }
