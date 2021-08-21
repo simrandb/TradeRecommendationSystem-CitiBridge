@@ -50,9 +50,11 @@ export class RecomService {
   private handleError(errorResponse: HttpErrorResponse) {
     if (errorResponse.error instanceof ErrorEvent) {
       console.error('Client side Error: ', errorResponse.error.message);
+      alert('There is a problem with the service. Please try again later');
     }
     else {
       console.error('Server side Error: ', errorResponse);
+      alert('There is a problem with the service on the Server side. Please try again later');
     }
     return throwError('There is a problem with the service. Please try again later');
   }
