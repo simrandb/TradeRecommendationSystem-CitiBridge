@@ -7,7 +7,7 @@
 body{
     /*background-color: burlywood;
     background-color: #0b0c10;
-    */background: url(images\gemstonedark.jpg);
+    */background: url(images\\gemstonedark.jpg);
     /*<a href='https://www.freepik.com/vectors/abstract-background'>Abstract background vector created by rawpixel.com - www.freepik.com</a>
     background: url(gemstone.jpg);
     */background-repeat: no-repeat;
@@ -34,7 +34,7 @@ link{
   color: #555555;
   font-size:small;
   font-family:'Courier New', Courier, monospace;
-  position: absolute;
+  position: fixed;
   bottom: 10px;
   right: 20px;
 }

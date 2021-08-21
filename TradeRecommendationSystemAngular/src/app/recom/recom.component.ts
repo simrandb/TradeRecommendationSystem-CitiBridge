@@ -14,6 +14,7 @@ export class RecomComponent implements OnInit {
   sGrowth: string = 'growthpercent' ;
   recomStocks=[];
   savedStk: boolean;
+  loaded : Boolean = false;
 
   constructor(private service: RecomService) { 
     if(localStorage.getItem('username') != null)
@@ -26,7 +27,8 @@ export class RecomComponent implements OnInit {
   {
     this.sCap = event.target.value;
     console.log(this.sCap);
-    this.service.getRecom(this.sCap, this.sSector, this.sTopQuan, this.sGrowth).subscribe(response=>{this.recomStocks=response})
+    this.loaded=false;
+    this.service.getRecom(this.sCap, this.sSector, this.sTopQuan, this.sGrowth).subscribe(response=>{this.recomStocks=response; this.loaded=true;})
 
   }
 
@@ -34,7 +36,8 @@ export class RecomComponent implements OnInit {
   {
     this.sSector = event.target.value;
     console.log(this.sSector);
-    this.service.getRecom(this.sCap, this.sSector, this.sTopQuan, this.sGrowth).subscribe(response=>{this.recomStocks=response})
+    this.loaded=false;
+    this.service.getRecom(this.sCap, this.sSector, this.sTopQuan, this.sGrowth).subscribe(response=>{this.recomStocks=response; this.loaded=true;})
 
   }
 
@@ -42,7 +45,8 @@ export class RecomComponent implements OnInit {
   {
     this.sTopQuan = event.target.value;
     console.log(this.sTopQuan);
-    this.service.getRecom(this.sCap, this.sSector, this.sTopQuan, this.sGrowth).subscribe(response=>{this.recomStocks=response})
+    this.loaded=false;
+    this.service.getRecom(this.sCap, this.sSector, this.sTopQuan, this.sGrowth).subscribe(response=>{this.recomStocks=response; this.loaded=true;})
 
   }
 
@@ -50,7 +54,8 @@ export class RecomComponent implements OnInit {
   {
     this.sGrowth = event.target.value;
     console.log(this.sGrowth);
-    this.service.getRecom(this.sCap, this.sSector, this.sTopQuan, this.sGrowth).subscribe(response=>{this.recomStocks=response})
+    this.loaded = false;
+    this.service.getRecom(this.sCap, this.sSector, this.sTopQuan, this.sGrowth).subscribe(response=>{this.recomStocks=response; this.loaded=true;})
 
   }
 
@@ -107,7 +112,8 @@ export class RecomComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.service.getRecom(this.sCap, this.sSector, this.sTopQuan, this.sGrowth).subscribe(response=>{this.recomStocks=response})
+    this.loaded = false;
+    this.service.getRecom(this.sCap, this.sSector, this.sTopQuan, this.sGrowth).subscribe(response=>{this.recomStocks=response; this.loaded=true;})
 
   
   }

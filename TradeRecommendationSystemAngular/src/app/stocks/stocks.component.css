@@ -46,7 +46,11 @@ a:hover{
   }
   */
 
-
+.main2 p{
+  color: #c5c6c7;
+  font-size: 24px;
+  text-align: center;
+}
 .content p{
     color: #152833;
     font-size: large;
@@ -144,6 +148,16 @@ a:hover{
     margin-left: 100px;
   }
   
+  .loader{
+    text-align: center;
+    font-size: 22px;
+    color: #c5c6c7;
+
+  }
+  img.loader{
+    text-align: center;
+  }
+
   /* Remove extra left and right margins, due to padding */
   .row {
     margin: 0px -20px 0 -20px;

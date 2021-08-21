@@ -1,3 +1,4 @@
+import { NumberSymbol } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 //import { runInThisContext } from 'node:vm';
 import { Observable } from 'rxjs';
@@ -13,8 +14,9 @@ export class StocksComponent implements OnInit {
 
   stocks=[];
   userName : string;
-  loggedIn : Boolean = false
-  mktPrice: number
+  loggedIn : Boolean = false;
+  mktPrice: NumberSymbol;
+  loaded : Boolean = false;
 
   constructor(private service: StocksService, private apiService: ApiService) { 
 
@@ -43,19 +45,22 @@ export class StocksComponent implements OnInit {
     }
   }
 
+  
    
   ngOnInit(): void {
     if(localStorage.getItem('username')==null || localStorage.getItem('username')=='null')
     {
       window.location.pathname='./login'
     }
-    
+    this.loaded = false;
+    console.log("LOADING= " +this.loaded)
     console.log("in Stocks.Component")
     console.log(localStorage.getItem('username'))
     this.userName = localStorage.getItem('username')
     
-    this.service.getUserId().subscribe(data=>{this.service.getStocks(data).subscribe(response=>{this.stocks=response})});
-
+    this.service.getUserId().subscribe(data=>{this.service.getStocks(data).subscribe(response=>{this.stocks=response; this.loaded = true;})});
+    
+    console.log("LOADING= " +this.loaded)
   }
 
 }

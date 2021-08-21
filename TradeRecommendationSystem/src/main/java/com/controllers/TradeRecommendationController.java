@@ -92,7 +92,7 @@ public class TradeRecommendationController {
 	public boolean verifyUser(String username, String password) {
 		
 		boolean userVerified=dao.verifyUser(username, password);
-		//dao.updateDatabaseForToday();
+		//dao.batch_updateDatabaseForToday();
 		return userVerified;
 		
 		
@@ -164,7 +164,8 @@ public class TradeRecommendationController {
 	@RequestMapping(value = "/insertnsestocklist")
 	public void insertNseStockList() {
 
-		dao.insertCompanySymbolsAndSector();
+		//dao.insertCompanySymbolsAndSector();
+		dao.batchinsertCompany_SymbolandSector();
 		
 	}
 	
