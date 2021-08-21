@@ -31,6 +31,8 @@ public interface TradeRecommendationSystemDAO {
 	//public String x_rapidapi_key="fc5143996fmshdc74c92bd29fd1cp19b94ajsn3b5925dc08d2";
 	public int alterSavedStockQuantity(int userid,String companySymbol, String plusminus);
 	public double getMarketPrice(String companySymbol);
+	public void batchinsertCompany_SymbolandSector();  //still doing
+	public void batch_updateDatabaseForToday();  //still doing
 	
 	
 	public String x_rapidapi_key="96287fd32fmsh462943b1c670d91p116d22jsn54211cf6fa70";
