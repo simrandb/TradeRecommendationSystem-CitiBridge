@@ -139,28 +139,6 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 	
 	
 	//Done
-	public List<UserStock> findCustomerStocks(int userId) {
-		// TODO Auto-generated method stub
-
-		String FINDSTOCKS = "select * from stocks where customerid=?";
-		List<UserStock> stocks = template.query(FINDSTOCKS, new RowMapper<UserStock>() {
-			
-			
-			@Override
-			public UserStock mapRow(ResultSet set, int arg1) throws SQLException {
-				// TODO Auto-generated method stub
-				double mktPrice = getMarketPrice(set.getString(3));
-				return new UserStock(set.getString(3), set.getInt(4), Double.parseDouble(df.format(mktPrice)));
-			}
-
-		}, userId);
-
-		return stocks;
-	}
-	
-	
-	
-	//Done
 	public boolean verifyUser(String username, String password)
 	{
 		
@@ -185,6 +163,26 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 
 	
 	
+	//Done
+	public List<UserStock> findCustomerStocks(int userId) {
+		// TODO Auto-generated method stub
+	
+		String FINDSTOCKS = "select * from stocks where customerid=?";
+		List<UserStock> stocks = template.query(FINDSTOCKS, new RowMapper<UserStock>() {
+			
+			
+			@Override
+			public UserStock mapRow(ResultSet set, int arg1) throws SQLException {
+				// TODO Auto-generated method stub
+				double mktPrice = getMarketPrice(set.getString(3));
+				return new UserStock(set.getString(3), set.getInt(4), Double.parseDouble(df.format(mktPrice)));
+			}
+	
+		}, userId);
+	
+		return stocks;
+	}
+
 	//Done
 	public List<NseStock> stocksForSelectedFilters(String marketCapSelected, String sector, int topHowMany ,String growthNumberOrGrowthPercent)
 	{
@@ -859,7 +857,198 @@ public ArrayList<Long> Determinininggrowthdates()
 }
 */
 
+//BATCH INSERT STILL DOING
 	
+	
+	//Done
+	public void batchinsertCompany_SymbolandSector() 
+	{
+		String  insertRecord= "insert into nse_stocks(companySymbol,sector) values(?,?)";
+		String sector="";
+		ArrayList<Object[]> querargs1 = new ArrayList<>();
+		for(String stock:dummynsestocks)
+		{
+			  try {
+			        String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol="+stock+".NS"+"&region=IN";
+			        URL obj = new URL(url);
+			        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			        con.setRequestMethod("GET");
+			        con.setRequestProperty("x-rapidapi-key",x_rapidapi_key );
+			        con.setRequestProperty("x_rapidapi_host",x_rapidapi_host );
+			        int responseCode = con.getResponseCode();
+			        
+			        //System.out.println("\nSending 'GET' request to URL : " + url);
+			        //System.out.println("Response Code : " + responseCode);
+			        
+			        BufferedReader in = new BufferedReader(
+			                new InputStreamReader(con.getInputStream()));
+			        String inputLine;
+			        StringBuffer response = new StringBuffer();
+			        while ((inputLine = in.readLine()) != null) {
+			        	response.append(inputLine);
+			             //print in String
+			             JSONObject myResponse = new JSONObject(response.toString());
+			             
+			             
+			             JSONObject getSth = myResponse.getJSONObject("summaryProfile");
+			             Object level = getSth.get("sector");
+			             
+			             //template.update(insertRecord,stock, level);
+			             Object[] querargs = {stock,level};
+			             querargs1.add(querargs);
+			  }
+			  }
+
+			     catch (Exception e) {
+			        e.printStackTrace();
+			    }
+			  
+			
+		}
+		template.batchUpdate(insertRecord,querargs1);
+		System.out.println("done");
+
+
+	}
+	
+	//Done
+	public void batch_updateDatabaseForToday()
+	{
+		int toUpdate=checkDateModifiedOfDatabase();
+		ArrayList<Object[]> querargs1 = new ArrayList<>();
+		if (toUpdate==0)
+		{
+			return;
+		}
+		Object raw=null;
+		String  insertRecord= "update nse_stocks set marketCap=?, growth=?, growthpercent=?, marketPrice=?, dateModified=(select curdate()) where companySymbol=?";
+		NseStock nsestock=new NseStock();
+		String marketCapString="";
+		ArrayList<Long> timestamps=Determinininggrowthdates();
+		
+		//String checkModDate="select dateModified from nse_stocks where companySymbol= :cmpSym";
+		for(String stock : dummynsestocks)
+		{
+			
+			
+			 try {
+				 
+				 	//for market cap
+			        String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol="+stock+".NS"+"&region=IN";
+			        URL obj = new URL(url);
+			        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			        con.setRequestMethod("GET");
+			        con.setRequestProperty("x-rapidapi-key",x_rapidapi_key );
+			        con.setRequestProperty("x_rapidapi_host",x_rapidapi_host );
+			        int responseCode = con.getResponseCode();
+			        System.out.println("\nSending 'GET' request to URL : " + url);
+			        System.out.println("Response Code : " + responseCode);
+			        BufferedReader in = new BufferedReader(
+			                new InputStreamReader(con.getInputStream()));
+			        String inputLine;
+			        StringBuffer response = new StringBuffer();
+			        JSONObject myResponse=null, level=null;
+			        double regularMarketPrice=0.0d;
+			        
+			        while ((inputLine = in.readLine()) != null) {
+			        	response.append(inputLine);
+			             //print in String
+			             myResponse = new JSONObject(response.toString());
+			             
+			        
+			             JSONObject getSth = myResponse.getJSONObject("price");
+			             level = getSth.getJSONObject("marketCap");
+			             
+
+			             
+			             JSONObject getPrice = myResponse.getJSONObject("price");
+			             JSONObject levelPrice = getPrice.getJSONObject("regularMarketPrice");
+					     regularMarketPrice=(double)levelPrice.getDouble("raw");
+			             
+			             
+			             
+			        }
+			             long marketCap=(long)level.get("raw");
+			             if (marketCap>=500000000000L)
+			             {
+			            	 marketCapString="Large Cap";
+			             }
+			             else if (marketCap>=150000000000L)
+			             {
+			            	 marketCapString="Mid Cap";			            	 
+			             }
+			             else
+			             {
+			            	 marketCapString="Small Cap";			            	 			            	 
+			             }
+			             System.out.println(marketCapString);
+			             
+			        
+			        
+			        
+			        
+			        
+			        //for growth and growthpercent
+			        url="https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v3/get-historical-data?symbol="+stock+".NS&region=IN";
+			        obj = new URL(url);
+			        con = (HttpURLConnection) obj.openConnection();
+			        con.setRequestMethod("GET");
+			        con.setRequestProperty("x-rapidapi-key",x_rapidapi_key );
+			        con.setRequestProperty("x_rapidapi_host",x_rapidapi_host );
+			        responseCode = con.getResponseCode();
+			        in = new BufferedReader(
+			                new InputStreamReader(con.getInputStream()));
+			        response = new StringBuffer();
+			        JSONArray getSth=null;
+			        while ((inputLine = in.readLine()) != null) {
+			        	response.append(inputLine);
+			             myResponse = new JSONObject(response.toString());	
+			             getSth = myResponse.getJSONArray("prices");
+			        }
+			        
+			        
+			             JSONObject object = getSth.getJSONObject(0);
+			             Double priceToday = object.getDouble("open");
+			             Double pricePast=0.0;
+			             
+			           for (int i = 0, size = getSth.length(); i < size; i++)
+			           {
+			        	   object = getSth.getJSONObject(i);
+			        	   Long l1=object.getLong("date");
+			        	   Long l2=timestamps.get(1);
+			        	   if (l1.equals(l2))
+			        	   {
+			        		   pricePast=object.getDouble("open");
+			        		   break;
+			        	   }
+			           }
+			           System.out.println(priceToday);
+			           System.out.println(pricePast);
+			             
+			           Double growthPercent=(java.lang.Math.abs(priceToday-pricePast)*100)/pricePast;
+			           if (priceToday<pricePast)
+			           {
+			        	   growthPercent=-growthPercent;
+			           }
+			             
+			        
+					//template.update(insertRecord,marketCapString,java.lang.Math.abs(priceToday-pricePast), growthPercent, regularMarketPrice, stock);
+					Object[] querargs = {marketCapString,java.lang.Math.abs(priceToday-pricePast), growthPercent, regularMarketPrice, stock};
+					querargs1.add(querargs);
+			  }
+
+			       
+
+			     catch (Exception e) {
+			        e.printStackTrace();
+			    }
+			
+		}
+		template.batchUpdate(insertRecord,querargs1);
+
+	}
+		
+		
 
 
 }
