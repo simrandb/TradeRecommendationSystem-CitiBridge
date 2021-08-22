@@ -1,18 +1,154 @@
 
 <br>
-<a *ngIf="loggedIn" href="./logout" >Log Out</a>
-<a *ngIf="!loggedIn" href="./login" >Log In</a>
+<a *ngIf="loggedIn" class="mainLogin" href="./logout" >Log Out</a>
+<a *ngIf="!loggedIn" class="mainLogin" href="./login" >Log In</a>
 
 <br>
 <p style="font-size: 18px;" *ngIf="!loggedIn" class="login_Cond">*To view Stock Recommendations and your Profile containing Saved Stocks, Please Log IN</p>
 <p *ngIf="loggedIn"><br></p>
 <br>
 <!-- Sample News to see color pallete-->
-<h1 style="color: #66fcf1; text-align: center;">NEWS</h1>
+<h1 style="color: #66fcf1; text-align: center; font-size: 36px;">NEWS</h1>
 <br>
-<p>sdfsg</p>
-<p>sdfsg dfgdgdf sdgvjhbun djsibjksnk asygdyuabfj jkn guygai oioj j uho</p>
-<p>sdfsg hjbhujn hb bqopackn kamln uw ijiojdan oijioj </p>
-<br>
-<p>sdfsg ekjkfwe jhbj uief ijik f</p>
-<p>sdfsg gfr</p>
+<div id="top">
+    <div class="wrapper row3">
+        <main class="hoc container clear"> 
+        <h3>
+        <marquee behavior="scroll" direction="left">     
+          <font color="white">NIFTY 50</font>
+            <font color= "skyblue">+14,557.50</font> (<font color= "green">+1.00%</font>) &nbsp; | &nbsp;
+          <font color="white">BAJAJFINSV</font>  
+            <font color= "skyblue">+10,125.00</font> (<font color= "green">+0.85%</font>) &nbsp; | &nbsp;
+          <font color="white">ICICIBANK</font>
+           <font color= "skyblue">+605.50</font> (<font color= "green">+3.29%</font>)&nbsp; | &nbsp;
+          <font color="white">MARUTI</font>
+           <font color= "skyblue">+6,789.00</font>(<font color= "red">-0.47%</font>)&nbsp; | &nbsp;
+          <font color="white">HDFCLIFE</font> 
+           <font color= "skyblue">+708.15</font>(<font color= "green">+3.08%</font>)&nbsp; | &nbsp;
+          <font color="white">TATASTEEL</font>
+           <font color= "skyblue">+956.00</font>(<font color= "green">+1.83%</font>)&nbsp; | &nbsp;
+          <font color="white">AXISBANK </font>
+           <font color= "skyblue">+703.80</font>(<font color= "green">+4.19%</font>)&nbsp; | &nbsp;
+          <font color="white">COALINDIA</font>
+           <font color= "skyblue">+128.00</font>(<font color= "green">+0.67%</font>) &nbsp; | &nbsp; 
+          <font color="white">RELIANCE</font>
+           <font color= "skyblue">+1,962.00</font> (<font color= "green">+1.77%</font>) &nbsp; | &nbsp;
+          <font color="white">SUNPHARMA</font>
+           <font color= "skyblue">+644.00</font>(<font color= "red">-0.71%</font>) &nbsp; | &nbsp;
+          <font color="white">HCLTECH</font>
+           <font color= "skyblue">+954.50</font> (<font color= "red">-2.68%</font>) 
+        </marquee>
+      </h3>
+      <!-- ################################################################################################ -->
+      <!-- ################################################################################################ -->
+      <!-- ################################################################################################ -->
+          <!-- main body -->
+          <!-- ################################################################################################ -->
+          <article class="group btmspace-80">
+            <div class="row"> 
+              <div class="column">
+                <table class="topGainer" cellpadding="3" cellspacing="0" border="0">
+                  <tr><th id="tg" >Top Gainers</th></tr>
+                    
+                  <tr>
+                    <th class="rows-def-head">Company</th>
+                    <th class="rows-def-head">Growth</th>
+                    <th class="rows-def-head">%Gain</th>
+                  </tr>
+                  <tr *ngFor="let g of topGainer" class="rows-def">
+                    <td class="rows-def">{{g.companySymbol}}</td>
+                    <td class="rows-def">{{g.growth}}</td>
+                    <td class="rows-def">{{g.growthpercent}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="column">
+                <table class="topLosers" cellpadding="3" cellspacing="0" border="0">
+                  <tr><th id="tl">Top Losers</th></tr>
+                  <tr>
+                    <th class="rows-def-head">Company</th>
+                    <th class="rows-def-head">Growth</th>
+                    <th class="rows-def-head">%Loss</th>
+                  </tr>
+                  <tr *ngFor="let l of topLoser" class="rows-def">
+                    <td class="rows-def">{{l.companySymbol}}</td>
+                    <td class="rows-def">{{l.growth}}</td>
+                    <td class="rows-def">{{l.growthpercent}}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </article>
+          <!-- ################################################################################################ -->
+          <hr class="btmspace-80">
+          <!-- ################################################################################################ -->
+          <ul class="nospace group overview">
+            <li class="one_third">
+              <article><img src="assets/img/2.jpg" alt="">
+                <h6 class="heading">ICICI Securities picks 19 ‘buy’ opportunities in NSE200 based on MILTGV framework</h6>
+                <ul class="nospace meta">
+                  <li><b><u>Money Control</u></b></li>
+                </ul>
+                <p>ICICI Securities MILTGV framework discounts the earnings base by the co&hellip;</p>
+                <br>
+                <footer class="nospace"><a class="btn" target="_blank" href="https://www.moneycontrol.com/news/business/markets/icici-securities-picks-19-buy-opportunities-in-nse200-based-on-miltgv-framework-6817791.html">Read More &raquo;</a></footer>
+              </article>
+            </li>
+            <li class="one_third">
+              <article><img src="assets/img/3.jpg" alt="">
+                <h6 class="heading">RIL, SBI, Tata Steel & IOC among 115 stocks all set to rally, shows MACD</h6>
+                <ul class="nospace meta">
+                  <li><b><u>The Economic Times</u></b></li>
+                </ul>
+                <p>When the MACD crosses above the signal line, it gives a bullish signal, indicating that the price of the&hellip;</p>
+                <br>
+                <footer class="nospace"><a class="btn" target="_blank" href="https://economictimes.indiatimes.com/markets/stocks/news/ril-sbi-tata-steel-ioc-among-115-stocks-all-set-to-rally-shows-macd/articleshow/82270097.cms">Read More &raquo;</a></footer>
+              </article>
+            </li>
+            <li class="one_third">
+              <article><img src="assets/img/4.jpg" alt="">
+                <h6 class="heading">Stocks in the news: Maruti Suzuki, Axis Bank, Bajaj Finance, TechM, SBI Card and Britannia</h6>
+                <ul class="nospace meta">
+                  <li><b><u>The Economic Times</u></b></li>
+                </ul>
+                <p>ABB, TVS Motor, Nippon Life, Symphony, PNB Housing, Sanofi India, Hatsun Agro &hellip;</p>
+                <br>
+                <footer class="nospace"><a class="btn" target="_blank" href="https://economictimes.indiatimes.com/markets/stocks/news/stocks-in-the-news-maruti-suzuki-axis-bank-bajaj-finance-techm-sbi-card-and-britannia/articleshow/82267623.cms">Read More &raquo;</a></footer>
+              </article>
+            </li>
+            <li class="one_third">
+              <article><img src="assets/img/5.jpg" alt="">
+                <h6 class="heading">Experts give 'buy' tag to SBI, ICICI Bank and Axis Bank stocks for short term</h6>
+                <ul class="nospace meta">
+                  <li><b><u>Mint</u></b></li>
+                </ul>
+                <p>TBanks with strong corporate business outlook can showcase 3-5 per cent upside movement in short-term&hellip;</p>
+                <br>
+                <footer class="nospace"><a class="btn" target="_blank" href="https://www.livemint.com/market/stock-market-news/experts-give-buy-tag-to-sbi-icici-bank-and-axis-bank-stocks-for-short-term-11619486425076.html">Read More&raquo;</a></footer>
+              </article>
+            </li>
+            <li class="one_third">
+              <article><img src="assets/img/6.jpg" alt="">
+                <h6 class="heading">Covid returns: Will stock market crash again in 2021?</h6>
+                <ul class="nospace meta">
+                  <li><b><u>Business Today</u></b></li>
+                </ul>
+                <p>Today's market crash has triggered worries of a scenario like last year's when nationwide lockdown  had left the stock market bleeding with benchmark indices &hellip;</p>
+                <br>
+                <footer class="nospace"><a class="btn" target="_blank" href="https://www.businesstoday.in/markets/market-perspective/covid-returns-will-stock-market-crash-again-in-2021/story/436401.html">Read More &raquo;</a></footer>
+              </article>
+            </li>
+            <li class="one_third">
+              <article><img src="assets/img/7.jpg" alt="">
+                <h6 class="heading">'Oxygen' rally in Indian stock market. Name just enough to lift shares</h6>
+                <ul class="nospace meta">
+                  <li><b><u>Mint</u></b></li>
+                </ul>
+                <p>With Indian COVID-19 patients struggling to find medical oxygen in the middle of a second deadly wave of coronavirus infections, shares in companies&hellip;</p>
+                <br>
+                <footer class="nospace"><a class="btn" target="_blank" href="https://www.livemint.com/market/stock-market-news/oxygen-rally-in-indian-stock-market-name-is-just-enough-to-lift-shares-11618901431621.html">Read More &raquo;</a></footer>
+              </article>
+            </li>
+          </ul>
+          <a id="backtotop" href="#top"><i class="arrow"></i></a>  
+    

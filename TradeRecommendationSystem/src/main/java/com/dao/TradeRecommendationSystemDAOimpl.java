@@ -762,13 +762,14 @@ public ArrayList<Long> Determinininggrowthdates()
 	@Override
 	public List<NseStock> topGainers() {
 		List<NseStock>  stocks=null;
-		
+		DecimalFormat df = new DecimalFormat("0.00");
 		String find = "select * from nse_stocks order by growthpercent desc limit 3";
 		stocks = template.query(find, new RowMapper<NseStock>() {
 
 			@Override
-			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {				
-				return new NseStock(set.getString(1),set.getDouble(3),set.getDouble(4));
+			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {		
+				//call api for mktprice
+				return new NseStock(set.getString(1),Double.parseDouble(df.format(set.getDouble(3))),Double.parseDouble(df.format(set.getDouble(4))));
 				}
 		});
 		return stocks;
@@ -777,13 +778,14 @@ public ArrayList<Long> Determinininggrowthdates()
 	@Override
 	public List<NseStock> topLosers() {
 		List<NseStock>  stocks=null;
-		
+		DecimalFormat df = new DecimalFormat("0.00");
 		String find = "select * from nse_stocks order by growthpercent asc limit 3";
 		stocks = template.query(find, new RowMapper<NseStock>() {
 
 			@Override
-			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {				
-				return new NseStock(set.getString(1),set.getDouble(3),set.getDouble(4));
+			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {	
+				//call api for mktprice
+				return new NseStock(set.getString(1),Double.parseDouble(df.format(set.getDouble(3))),Double.parseDouble(df.format(set.getDouble(4))));
 				}
 		});
 		return stocks;

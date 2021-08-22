@@ -38,6 +38,13 @@ public class NseStock {
 		this.growth = growth;
 		this.growthpercent = growthpercent;
 	}
+	/*
+	public NseStock(String companySymbol, double marketPrice, double growthpercent) {
+		super();
+		this.companySymbol = companySymbol;
+		this.marketPrice = marketPrice;
+		this.growthpercent = growthpercent;
+	}*/
 	
 	public NseStock(String companySymbol, String sector, double growth, double growthpercent, String marketCap, double marketPrice) {
 		super();
