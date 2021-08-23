@@ -3,11 +3,7 @@ import { Stock } from './stocks/stocks.model';
 import { HttpClient, HttpErrorResponse , HttpClientModule} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/map';
-import { of } from 'rxjs/observable/of';
-import { map } from 'rxjs/operator/map';
-import 'rxjs/add/observable/throw';
+
 
 @Injectable({
   providedIn: 'root'
