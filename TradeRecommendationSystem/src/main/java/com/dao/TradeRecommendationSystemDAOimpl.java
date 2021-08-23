@@ -769,7 +769,7 @@ public ArrayList<Long> Determinininggrowthdates()
 			@Override
 			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {		
 				//call api for mktprice
-				return new NseStock(set.getString(1),Double.parseDouble(df.format(set.getDouble(3))),Double.parseDouble(df.format(set.getDouble(4))));
+				return new NseStock(set.getString(1),Double.parseDouble(df.format(getMarketPrice(set.getString(1)))),Double.parseDouble(df.format(set.getDouble(4))));
 				}
 		});
 		return stocks;
@@ -785,7 +785,7 @@ public ArrayList<Long> Determinininggrowthdates()
 			@Override
 			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {	
 				//call api for mktprice
-				return new NseStock(set.getString(1),Double.parseDouble(df.format(set.getDouble(3))),Double.parseDouble(df.format(set.getDouble(4))));
+				return new NseStock(set.getString(1),Double.parseDouble(df.format(getMarketPrice(set.getString(1)))),Double.parseDouble(df.format(set.getDouble(4))));
 				}
 		});
 		return stocks;

@@ -70,3 +70,13 @@ table{
   color:bisque;
 }
 
+.loader{
+  text-align: center;
+  font-size: 22px;
+  color: #c5c6c7;
+
+}
+img.loader{
+  text-align: center;
+}
+

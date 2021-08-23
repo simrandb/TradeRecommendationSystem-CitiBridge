@@ -1,6 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/map';
+import { of } from 'rxjs/observable/of';
+import { map } from 'rxjs/operator/map';
+import 'rxjs/add/observable/throw';
 import { Gainer } from './home/gainer.model';
 import { Loser } from './home/loser.model';
 
@@ -13,12 +19,23 @@ export class SummaryService {
 
   public getGainers() : Observable<Gainer[]> {
 
-    return this.httpService.get<Gainer[]>("http://localhost:8088/topgainers");
+    return this.httpService.get<Gainer[]>("http://localhost:8088/topgainers").pipe(catchError(this.handleError));
   }
 
   public getLosers() : Observable<Loser[]> {
 
-    return this.httpService.get<Loser[]>("http://localhost:8088/toplosers");
+    return this.httpService.get<Loser[]>("http://localhost:8088/toplosers").pipe(catchError(this.handleError));
   }
 
+  private handleError(errorResponse: HttpErrorResponse) {
+    if (errorResponse.error instanceof ErrorEvent) {
+      console.error('Client side Error: ', errorResponse.error.message);
+      alert('There is a problem with the service. Please try again later');
+    }
+    else {
+      console.error('Server side Error: ', errorResponse);
+      alert('There is a problem with the service on the Server side. Please try again later');
+    }
+    return throwError('There is a problem with the service. Please try again later');
+  }
 }
