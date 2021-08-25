@@ -36,11 +36,13 @@
                             
                             <div class="flip-card-front">
                                 <div class="content">
-                                    <br>
-                                    <p>STOCK NAME = {{s.savedStockSymbol }}</p>
-                                    <br>
+                                    
+                                    <p style="padding-top: 5px;">STOCK NAME = {{s.savedStockSymbol }}</p>
                                     <br>
                                     <p>MARKET PRICE= {{s.mktPrice}}</p>
+                                    <br>
+                                    <p>TOTAL PRICE = {{ s.mktPrice * s.quantity }}</p>
+
                                 </div>
                             </div>
                             <div class="flip-card-back">

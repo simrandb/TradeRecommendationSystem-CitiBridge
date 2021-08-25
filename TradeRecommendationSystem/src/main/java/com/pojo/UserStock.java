@@ -24,7 +24,7 @@ public class UserStock {
 		this.quantity = quantity;
 		this.mktPrice = mktPrice;
 	}
-
+	
 
 	public int getQuantity() {
 		return quantity;

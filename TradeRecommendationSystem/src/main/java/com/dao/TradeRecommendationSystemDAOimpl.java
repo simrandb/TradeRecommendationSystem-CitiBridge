@@ -175,7 +175,7 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 			public UserStock mapRow(ResultSet set, int arg1) throws SQLException {
 				// TODO Auto-generated method stub
 				double mktPrice = getMarketPrice(set.getString(3));
-				return new UserStock(set.getString(3), set.getInt(4), Double.parseDouble(df.format(mktPrice)));
+				return new UserStock(set.getString(3), set.getInt(4), Double.parseDouble(df.format(mktPrice)) );
 			}
 	
 		}, userId);

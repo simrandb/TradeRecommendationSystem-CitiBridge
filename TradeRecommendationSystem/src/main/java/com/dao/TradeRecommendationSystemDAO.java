@@ -35,7 +35,7 @@ public interface TradeRecommendationSystemDAO {
 	public void batch_updateDatabaseForToday();  //still doing
 	
 	
-	public String x_rapidapi_key="96287fd32fmsh462943b1c670d91p116d22jsn54211cf6fa70";
+	public String x_rapidapi_key="3e62a13f67msh8165e2db76b221bp1ac378jsn2995e9f2d517";
 	public String x_rapidapi_host="apidojo-yahoo-finance-v1.p.rapidapi.com";
 	public String [] dummynsestocks={"RELIANCE",
 			

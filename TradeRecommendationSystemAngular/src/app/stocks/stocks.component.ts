@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
 import { StocksService } from '../stocks.service';
+import { Stock } from './stocks.model';
 
 @Component({
   selector: 'app-stocks',
@@ -45,7 +46,6 @@ export class StocksComponent implements OnInit {
     }
   }
 
-  
    
   ngOnInit(): void {
     if(localStorage.getItem('username')==null || localStorage.getItem('username')=='null')
