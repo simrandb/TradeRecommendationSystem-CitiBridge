@@ -8,8 +8,15 @@
 <p style="font-size: 18px;" *ngIf="!loggedIn" class="login_Cond" >*To view Stock Recommendations and your Profile containing Saved Stocks, Please Log IN</p>
 <div *ngIf="loggedIn" class="content">
     <h1>Recommended Stocks-</h1>
-    <br><br><br>
+    <br>
+    <label class="searchbar"><b>Search Company Stock : </b></label>
+    <span class="searchbar">
+      <input class="searchbar" type="text" placeholder="Enter Company Symbol" required="" #companySym name="companySym" id="companySym"/>    
+      <button class="searchbar" type="button" (click)="search(companySym.value)">SEARCH</button>
+    </span>
+    <br><br>
     <form>  
+
         <label for="mCap">Choose a Market Cap: </label>
         <select (change)="changeCap($event)">
             <option value="any" selected="selected">any</option>
@@ -77,6 +84,7 @@
         
             
         </tr>
-    </table>
+      </table>
     </div>
-</div>
+
+  </div>

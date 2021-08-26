@@ -43,6 +43,14 @@ export class RecomService {
     .pipe(catchError(this.handleError));
   }
 
+  public searchStk(stkSYm: Text):Observable<Recom[]>{
+    
+    this.url = 'http://localhost:8088/searchStock?stkSym='+ stkSYm
+    console.log('in Search Stock Service: '+ this.url )
+    return this.httpService.get<Recom[]>(this.url)
+                          .pipe(catchError(this.handleError));
+  }
+
   private handleError(errorResponse: HttpErrorResponse) {
     if (errorResponse.error instanceof ErrorEvent) {
       console.error('Client side Error: ', errorResponse.error.message);

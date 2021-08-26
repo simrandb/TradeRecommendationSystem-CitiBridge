@@ -68,19 +68,22 @@ export class RecomComponent implements OnInit {
     console.log("in recom comp, stockExists")
     if(res==true)
     {
-      //this.savedStk = true
-      //this.recomStocks[i].isDisabled = true;
       alert('STOCK PREVIOUSLY SAVED')
     }
     else 
     {
-      //this.recomStocks[i].isDisabled = false;
-      //this.savedStk = false
       this.service.saveStk(stkSym).subscribe();
       alert('Stock Saved in Profile!');
 
     }
     return
+  }
+
+  search(companySym : Text ) {
+    console.log("in search : "+ companySym)
+    this.loaded=false;
+    this.service.searchStk(companySym ).subscribe(response=>{this.recomStocks=response; this.loaded=true;})
+
   }
 
   refresh() {

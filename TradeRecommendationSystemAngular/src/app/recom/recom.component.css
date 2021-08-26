@@ -19,6 +19,35 @@ a:hover{
     cursor: pointer;
 }
 
+label.searchbar {
+  float: left;
+  font-size: 20px;
+  margin-left: 12px;
+  margin-top: 2px;
+  padding: 10px 8px 5px 12px;
+}
+
+span.searchbar {
+  display: block;
+  overflow: hidden;
+  padding: 10px 8px 5px 10px;
+}
+input.searchbar {
+  font-family: 'Courier New', Courier, monospace;
+  margin-right: 20px;
+  font-size: 16px;
+  padding:2px;
+}
+button.searchbar{
+  font-size: 16px;
+  padding:2px;
+  border-radius: 2px;
+  border-width: 2px;
+  font-size: medium;
+  text-align: center;
+}
+
+
 label{
   padding-left: 20px;
   font-size: 20px;

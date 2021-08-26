@@ -337,6 +337,26 @@ public class TradeRecommendationSystemDAOimpl implements TradeRecommendationSyst
 		return stocks;
 	}
 	
+	public List<NseStock> searchStk(String compSym)
+	{
+		List<NseStock> stocks=null;
+		
+		
+		String find = "select * from nse_stocks where companySymbol=?";
+		stocks = template.query(find, new RowMapper<NseStock>() {
+
+			@Override	
+			public NseStock mapRow(ResultSet set, int arg1) throws SQLException {
+				// TODO Auto-generated method stub
+				double mktPrice= getMarketPrice(set.getString(1));
+				
+				//returning output
+				return new NseStock(set.getString(1),set.getString(2),Double.parseDouble(df.format(set.getDouble(3))), Double.parseDouble(df.format(set.getDouble(4))), set.getString(6), Double.parseDouble(df.format(mktPrice)));
+				}
+
+		}, compSym);
+		return stocks;
+	}
 	
 	public double getMarketPrice(String companySymbol)
 	{

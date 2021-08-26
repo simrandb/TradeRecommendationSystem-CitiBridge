@@ -134,7 +134,12 @@ public class TradeRecommendationController {
 	
 	}
 	
-	
+	@RequestMapping(value = "/searchStock")
+	public List<NseStock> searchStock(String stkSym) {
+
+		List <NseStock> stocks= dao.searchStk(stkSym);
+		return stocks;
+	}
 	
 	//Ready-to-use	
 	//------------------------------------------------------------------------------------------------
