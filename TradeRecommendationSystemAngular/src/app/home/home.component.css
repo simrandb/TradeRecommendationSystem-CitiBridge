@@ -15,6 +15,7 @@ a.mainLogin {
 }
 a.mainLogin:hover{
   background-color:#66fcf1;
+  cursor: pointer;
 }
 .login_Cond{
   color:#45a29e;

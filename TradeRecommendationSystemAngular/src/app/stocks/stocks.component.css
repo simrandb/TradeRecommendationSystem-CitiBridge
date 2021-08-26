@@ -16,6 +16,7 @@ a {
   }
 a:hover{
     background-color:#66fcf1;
+    cursor: pointer;
 }
 
 .tt{

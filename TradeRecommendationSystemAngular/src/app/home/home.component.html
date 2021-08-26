@@ -2,6 +2,7 @@
 <br>
 <a *ngIf="loggedIn" class="mainLogin" href="./logout" >Log Out</a>
 <a *ngIf="!loggedIn" class="mainLogin" href="./login" >Log In</a>
+<a class="mainLogin" (click)="refresh()">Refresh</a>
 
 <br>
 <p style="font-size: 18px;" *ngIf="!loggedIn" class="login_Cond">*To view Stock Recommendations and your Profile containing Saved Stocks, Please Log IN</p>

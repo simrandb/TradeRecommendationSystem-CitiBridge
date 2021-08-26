@@ -972,11 +972,11 @@ public ArrayList<Long> Determinininggrowthdates()
 			        }
 			             long marketCap=(long)level.get("raw");
 			             if (marketCap>=500000000000L)
-			             {
+			             {	//500million
 			            	 marketCapString="Large Cap";
 			             }
 			             else if (marketCap>=150000000000L)
-			             {
+			             {	//150 million
 			            	 marketCapString="Mid Cap";			            	 
 			             }
 			             else

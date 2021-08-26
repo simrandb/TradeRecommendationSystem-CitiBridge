@@ -13,9 +13,16 @@ export class HomeComponent implements OnInit {
   topGainer=[];
   topLoser=[];
   loaded : Boolean = false;
+  
   constructor(private service: SummaryService) { 
     if(localStorage.getItem('username') != null)
       this.loggedIn=true;
+  }
+
+  refresh() {
+    this.loaded = false;
+    this.service.getGainers().subscribe(response=>{this.topGainer=response; this.loaded=true;})
+    this.service.getLosers().subscribe(Response=>{this.topLoser=Response; this.loaded=true;})
   }
 
   ngOnInit(): void {

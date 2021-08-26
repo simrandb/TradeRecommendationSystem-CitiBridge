@@ -46,6 +46,12 @@ export class StocksComponent implements OnInit {
     }
   }
 
+  refresh() {
+    this.loaded = false;
+    
+    this.service.getUserId().subscribe(data=>{this.service.getStocks(data).subscribe(response=>{this.stocks=response; this.loaded = true;})});
+    
+  }
    
   ngOnInit(): void {
     if(localStorage.getItem('username')==null || localStorage.getItem('username')=='null')

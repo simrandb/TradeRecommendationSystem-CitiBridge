@@ -1,6 +1,7 @@
 <br>
 
     <a *ngIf="loggedIn" href="./logout" >Log Out</a>
+    <a *ngIf="loggedIn" (click)="refresh()" >Refresh</a>
     <a *ngIf="!loggedIn" href="./login" >Log In</a>
 
 
@@ -71,11 +72,7 @@
             <td>{{r.growthpercent}}</td>
             <td>{{r.marketCap}}</td>
             <td>{{r.marketPrice}}</td>
-            <!--<span>{{chkStkSave(r.companySymbol)}}</span>-->
-            <!--<div *ngIf="false || chkStkSave(r.companySymbol)"><button type="button" (click)="saveStock(r.companySymbol)">ADD</button></div>
-            <div *ngIf="true && chkStkSave(r.companySymbol)" class="stockSaved">-Saved-</div>-->
-            <!--<td><button *ngIf="false || chkStkSave(r.companySymbol)" type="button" (click)="saveStock(r.companySymbol)">ADD</button></td>
-            <td><div *ngIf="true && chkStkSave(r.companySymbol)">-Saved-</div></td>-->
+            
             <td><button type="button" (click)="saveStock(r.companySymbol)">ADD</button></td>
         
             

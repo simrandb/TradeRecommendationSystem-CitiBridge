@@ -83,32 +83,11 @@ export class RecomComponent implements OnInit {
     return
   }
 
-  /*
-  chkStkSave(stkSym: string){
-    console.log("in recom comp, chkSTkSave")
-    //this.service.chkStkSave(stkSym).subscribe(response=>{this.stockExists(response)})
-    return this.service.chkStkSave(stkSym).subscribe(response=>{localStorage.setItem('savedStock', String(response))})
-    
-  }
+  refresh() {
+    this.loaded=false;
+    this.service.getRecom(this.sCap, this.sSector, this.sTopQuan, this.sGrowth).subscribe(response=>{this.recomStocks=response; this.loaded=true;})
 
-  chkStorageVal(stkSym: string){
-    console.log('in chk Storage 1')
-    this.chkStkSave(stkSym)
-    console.log('in chk Storage 2')
-    if(localStorage.getItem('savedStock')=='true')
-    {//show button
-      console.log('in chk Storage 2 true')
-      localStorage.removeItem('savedStock')
-      return false;
-    }
-    else
-    {//hide button
-      console.log('in chk Storage 2 false')
-      localStorage.removeItem('savedStock')
-      return true;
-    }
   }
-*/
 
   ngOnInit(): void {
 
